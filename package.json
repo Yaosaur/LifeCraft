@@ -1,0 +1,25 @@
+{
+  "name": "lifecraft",
+  "version": "1.0.0",
+  "description": "| VERB   | PATH             | DESCRIPTION                   |\r | ------ | ---------------- | ----------------------------- |\r | GET    | /crafts          | index of sale items           |\r | GET    | /crafts/:id      | show page for selected item   |\r | GET    | /crafts/new      | page to add new item for sale |\r | POST   | /crafts          | add a new item for sale       |\r | GET    | /crafts/:id/edit | page to edit exisiting item   |\r | PUT    | /crafts/:id      | edit/update a sale item       |\r | DELETE | /crafts/:id      | delete a item                 |",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yaosaur/LifeCraft.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yaosaur/LifeCraft/issues"
+  },
+  "homepage": "https://github.com/Yaosaur/LifeCraft#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.1"
+  }
+}
