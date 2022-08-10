@@ -16,6 +16,8 @@ mongoose.connection.once('open', () => {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.static('public'));
+
 app.get('/seed', async (req, res) => {
   await Craft.deleteMany({});
   await Craft.insertMany(craftsData);
