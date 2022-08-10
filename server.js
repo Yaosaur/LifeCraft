@@ -18,6 +18,16 @@ app.get('/seed', async (req, res) => {
   res.send('done!');
 });
 
+app.get('/api/v1/crafts', async (req, res) => {
+  const crafts = await Craft.find({});
+  res.send(crafts);
+});
+
+app.get('/api/v1/crafts/:id', async (req, res) => {
+  const craft = await Craft.findById(req.params.id);
+  res.send(craft);
+});
+
 app.listen(port, () => {
   console.log('I am listening on port', port);
 });
