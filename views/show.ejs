@@ -19,9 +19,31 @@
         <img src="/images/bell-icon.png" />
       </div>
     </nav>
-    <h1><%=craft.title %></h1>
-    <img src="<%=craft.image%>" />
-    <div>$<%=craft.price%>, <%=craft.stock%> in stock</div>
-    <div><%=craft.description%></div>
+    <div id="product">
+      <div id="img-review">
+        <div>
+          <img src="<%=craft.image%>" />
+        </div>
+      </div>
+      <div id="seller-dets">
+        <h1><%=craft.title %></h1>
+        <div>$<%=craft.price%></div>
+        <% if (craft.stock > 0) {%> <%=craft.stock%> in stock
+        <div>
+          <label for="qty-select">Quantity:</label>
+          <select name="qty-select" id="qty-select">
+            <% for (let i = 1; i <= craft.stock ; i ++) {%>
+            <option value="<%= i %> "><%= i %></option>
+            <% } %>
+          </select>
+        </div>
+        <button>Buy Now</button>
+        <button>Add to Cart</button>
+        <% } else {%>
+        <div>Out Of Stock!</div>
+        <% } %>
+        <div><%=craft.description%></div>
+      </div>
+    </div>
   </body>
 </html>

@@ -116,7 +116,7 @@ const craftsData = [
       'https://i.etsystatic.com/16951444/r/il/ff2164/3837765999/il_794xN.3837765999_i076.jpg',
     description: `Measurements: Wingspan 70" inches wide and Depth is 32" inches long. One size fits all. Made with 52% Cotton and 48% Acrylic blend which is a beautiful soft gradient in the color of a peacock.`,
     price: 50,
-    stock: 3,
+    stock: 0,
     rating: 5,
   },
 ];
