@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const Craft = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
@@ -17,6 +18,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/seed', async (req, res) => {
   await Craft.deleteMany({});
@@ -32,6 +35,22 @@ app.get('/api/v1/crafts', async (req, res) => {
 app.get('/api/v1/crafts/:id', async (req, res) => {
   const craft = await Craft.findById(req.params.id);
   res.render('show', { craft });
+});
+
+app.get('/api/v1/crafts/:id', async (req, res) => {
+  const craft = await Craft.findById(req.params.id);
+  res.render('show', { craft });
+});
+
+app.get('/api/v1/crafts/:id/edit', async (req, res) => {
+  const craft = await Craft.findById(req.params.id);
+  res.render('edit', { craft });
+});
+
+app.put('/api/v1/crafts/:id/', (req, res) => {
+  Craft.findByIdAndUpdate(req.params.id, req.body, () => {
+    res.redirect(`/api/v1/crafts/${req.params.id}`);
+  });
 });
 
 app.listen(port, () => {
