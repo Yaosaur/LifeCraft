@@ -1,0 +1,41 @@
+#seller-dashboard {
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+
+#display {
+  grid-column: 1/1;
+  display: flex;
+  font-family: 'Dosis', sans-serif;
+  font-weight: 600;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+
+#controls {
+  grid-column: 2/2;
+}
+
+.card {
+  width: 350px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.price {
+  position: absolute;
+  width: 50px;
+  bottom: 15%;
+  left: 3%;
+  background-color: white;
+  border-radius: 10px;
+  text-align: center;
+}

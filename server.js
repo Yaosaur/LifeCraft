@@ -29,7 +29,7 @@ app.get('/seed', async (req, res) => {
 
 app.get('/api/v1/crafts', async (req, res) => {
   const crafts = await Craft.find({});
-  res.render('index', { crafts });
+  res.render('index', { crafts, craftSchema });
 });
 
 app.get('/api/v1/crafts/new', (req, res) => {
