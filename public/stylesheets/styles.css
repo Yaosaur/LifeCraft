@@ -36,21 +36,3 @@ body {
 #navibar button {
   border-radius: 50%;
 }
-
-#product {
-  display: grid;
-  grid-template-columns: 60% 40%;
-}
-
-#product #img-review {
-  grid-column: 1/1;
-}
-
-#product #seller-dets {
-  grid-column: 2/2;
-}
-
-#img-review img {
-  border-radius: 20px;
-  height: 50vh;
-}
