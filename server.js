@@ -58,6 +58,12 @@ app.put('/api/v1/crafts/:id/', (req, res) => {
   });
 });
 
+app.delete('/api/v1/crafts/:id/', (req, res) => {
+  Craft.findByIdAndRemove(req.params.id, () => {
+    res.redirect('/api/v1/crafts/');
+  });
+});
+
 app.listen(port, () => {
   console.log('I am listening on port', port);
 });

@@ -27,9 +27,17 @@
       </div>
       <div id="seller-dets">
         <h1><%=craft.title %></h1>
-        <a href="/api/v1/crafts/<%=craft._id%>/edit"
-          ><img src="/images/pencil-icon.png"
-        /></a>
+          <form
+          action="/api/v1/crafts/<%=craft._id%>/edit"
+          method="GET"
+        >
+          <button>Edit Craft</button>
+        <form
+          action="/api/v1/crafts/<%=craft._id%>/?_method=DELETE"
+          method="POST"
+        >
+          <button>Delist Craft</button>
+        </form>
         <div>$<%=craft.price%></div>
         <% if (craft.stock > 0) {%> <%=craft.stock%> in stock
         <div>
