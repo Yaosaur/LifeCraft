@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
-const Craft = require('./models/craft');
+const { craftSchema, Craft } = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
 
 require('dotenv').config();
@@ -32,9 +32,14 @@ app.get('/api/v1/crafts', async (req, res) => {
   res.render('index', { crafts });
 });
 
-app.get('/api/v1/crafts/:id', async (req, res) => {
-  const craft = await Craft.findById(req.params.id);
-  res.render('show', { craft });
+app.get('/api/v1/crafts/new', (req, res) => {
+  res.render('new', { craftSchema });
+});
+
+app.post('/api/v1/crafts', (req, res) => {
+  Craft.create(req.body, () => {
+    res.redirect('/api/v1/crafts');
+  });
 });
 
 app.get('/api/v1/crafts/:id', async (req, res) => {
@@ -44,7 +49,7 @@ app.get('/api/v1/crafts/:id', async (req, res) => {
 
 app.get('/api/v1/crafts/:id/edit', async (req, res) => {
   const craft = await Craft.findById(req.params.id);
-  res.render('edit', { craft });
+  res.render('edit', { craft, craftSchema });
 });
 
 app.put('/api/v1/crafts/:id/', (req, res) => {

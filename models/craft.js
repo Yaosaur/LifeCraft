@@ -15,4 +15,4 @@ const craftSchema = new mongoose.Schema({
 
 const Craft = mongoose.model('Craft', craftSchema);
 
-module.exports = Craft;
+module.exports = { craftSchema, Craft };
