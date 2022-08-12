@@ -28,7 +28,13 @@ app.get('/seed', async (req, res) => {
 });
 
 app.get('/api/v1/crafts', async (req, res) => {
-  const crafts = await Craft.find({});
+  let crafts = undefined;
+  const { title } = req.query;
+  if (title) {
+    crafts = await Craft.find({ title: new RegExp(`${title}`, 'i') });
+  } else {
+    crafts = await Craft.find({});
+  }
   res.render('index', { crafts, craftSchema });
 });
 

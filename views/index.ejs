@@ -15,8 +15,12 @@
   <body>
     <nav id="navibar">
       <a href="/api/v1/crafts" id="logo">LifeCraft</a>
-      <form action="">
-        <input type="text" placeholder="Discover life's inspirations..." />
+      <form action="/api/v1/crafts">
+        <input
+          type="search"
+          name="title"
+          placeholder="Discover life's inspirations..."
+        />
         <button><img src="/images/search-icon.png" /></button>
       </form>
       <div>
