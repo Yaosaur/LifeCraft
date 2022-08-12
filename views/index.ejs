@@ -30,14 +30,24 @@
     </nav>
     <div id="seller-dashboard">
       <div id="display">
-        <%for (let craft of crafts){%>
-        <div class="card">
-          <a href="/api/v1/crafts/<%=craft._id%>"
-            ><img src="<%=craft.image%>" /></a
-          ><span class="price">$<%=craft.price%></span>
-          <span class="title"><%=craft.title%></span>
+        <form action="/api/v1/crafts">
+          <input
+            type="search"
+            name="title"
+            placeholder="Browse your life's work..."
+          />
+          <button><img src="/images/search-icon.png" /></button>
+        </form>
+        <div id="cards">
+          <%for (let craft of crafts){%>
+          <div class="card">
+            <a href="/api/v1/crafts/<%=craft._id%>"
+              ><img src="<%=craft.image%>" /></a
+            ><span class="price">$<%=craft.price%></span>
+            <span class="title"><%=craft.title%></span>
+          </div>
+          <% } %>
         </div>
-        <% } %>
       </div>
       <div id="controls">
         <div id="storeName">Name of Store</div>
