@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/styles.css" />
     <link rel="stylesheet" href="/stylesheets/index.css" />
+    <script defer src="/scripts/indexScript.js"></script>
     <title>LifeCraft</title>
   </head>
   <body>
@@ -45,14 +46,30 @@
           <fieldset>
             <legend>Category</legend>
             <% for (let category of craftSchema.obj.category.enum) {%>
-            <input type="radio" id="<%=category %> " />
-            <label for="<%=category %>"><%=category %> </label>
+            <input type="radio" id="<%=category%>" name="category" />
+            <label for="<%=category%>"
+              ><a href="/api/v1/crafts/filter?category=<%=category%>"
+                ><%=category%></a
+              ></label
+            >
             <% } %>
           </fieldset>
           <fieldset>
             <legend>Price</legend>
-            <input type="radio" id="" />
-            <label for="kraken">Kraken</label>
+            <input type="radio" id="5-" name="price" />
+            <label for="5-"
+              ><a href="/api/v1/crafts/filter?price=lt5">Under $5</a></label
+            >
+            <input type="radio" id="5-50" name="price" />
+            <label for="5-50"
+              ><a href="/api/v1/crafts/filter?price=min5max50"
+                >$5 to $50</a
+              ></label
+            >
+            <input type="radio" id="50+" name="price" />
+            <label for="50+"
+              ><a href="/api/v1/crafts/filter?price=gt50">Over $50</a></label
+            >
           </fieldset>
           <fieldset>
             <legend>Rating</legend>

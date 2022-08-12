@@ -42,6 +42,25 @@ app.post('/api/v1/crafts', (req, res) => {
   });
 });
 
+app.get('/api/v1/crafts/filter', async (req, res) => {
+  const { category } = req.query;
+  const { price } = req.query;
+  if (category) {
+    let crafts = await Craft.find({ category: category });
+    res.render('index', { crafts, craftSchema });
+  } else if (price) {
+    let crafts = undefined;
+    if (price === 'lt5') {
+      crafts = await Craft.find({ price: { $lt: 5 } });
+    } else if (price === 'gt50') {
+      crafts = await Craft.find({ price: { $gt: 50 } });
+    } else {
+      crafts = await Craft.find({ price: { $gte: 5, $lte: 50 } });
+    }
+    res.render('index', { crafts, craftSchema });
+  }
+});
+
 app.get('/api/v1/crafts/:id', async (req, res) => {
   const craft = await Craft.findById(req.params.id);
   res.render('show', { craft });
