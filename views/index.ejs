@@ -9,13 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/styles.css" />
     <link rel="stylesheet" href="/stylesheets/index.css" />
+    <script defer src="/scripts/indexScript.js"></script>
     <title>LifeCraft</title>
   </head>
   <body>
     <nav id="navibar">
       <a href="/api/v1/crafts" id="logo">LifeCraft</a>
-      <form action="">
-        <input type="text" placeholder="Discover life's inspirations..." />
+      <form action="/api/v1/crafts">
+        <input
+          type="search"
+          name="title"
+          placeholder="Discover life's inspirations..."
+        />
         <button><img src="/images/search-icon.png" /></button>
       </form>
       <div>
@@ -25,14 +30,24 @@
     </nav>
     <div id="seller-dashboard">
       <div id="display">
-        <%for (let craft of crafts){%>
-        <div class="card">
-          <a href="/api/v1/crafts/<%=craft._id%>"
-            ><img src="<%=craft.image%>" /></a
-          ><span class="price">$<%=craft.price%></span>
-          <span class="title"><%=craft.title%></span>
+        <form action="/api/v1/crafts">
+          <input
+            type="search"
+            name="title"
+            placeholder="Browse your life's work..."
+          />
+          <button><img src="/images/search-icon.png" /></button>
+        </form>
+        <div id="cards">
+          <%for (let craft of crafts){%>
+          <div class="card">
+            <a href="/api/v1/crafts/<%=craft._id%>"
+              ><img src="<%=craft.image%>" /></a
+            ><span class="price">$<%=craft.price%></span>
+            <span class="title"><%=craft.title%></span>
+          </div>
+          <% } %>
         </div>
-        <% } %>
       </div>
       <div id="controls">
         <div id="storeName">Name of Store</div>
@@ -45,14 +60,30 @@
           <fieldset>
             <legend>Category</legend>
             <% for (let category of craftSchema.obj.category.enum) {%>
-            <input type="radio" id="<%=category %> " />
-            <label for="<%=category %>"><%=category %> </label>
+            <input type="radio" id="<%=category%>" name="category" />
+            <label for="<%=category%>"
+              ><a href="/api/v1/crafts/filter?category=<%=category%>"
+                ><%=category%></a
+              ></label
+            >
             <% } %>
           </fieldset>
           <fieldset>
             <legend>Price</legend>
-            <input type="radio" id="" />
-            <label for="kraken">Kraken</label>
+            <input type="radio" id="5-" name="price" />
+            <label for="5-"
+              ><a href="/api/v1/crafts/filter?price=lt5">Under $5</a></label
+            >
+            <input type="radio" id="5-50" name="price" />
+            <label for="5-50"
+              ><a href="/api/v1/crafts/filter?price=min5max50"
+                >$5 to $50</a
+              ></label
+            >
+            <input type="radio" id="50+" name="price" />
+            <label for="50+"
+              ><a href="/api/v1/crafts/filter?price=gt50">Over $50</a></label
+            >
           </fieldset>
           <fieldset>
             <legend>Rating</legend>

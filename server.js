@@ -28,7 +28,13 @@ app.get('/seed', async (req, res) => {
 });
 
 app.get('/api/v1/crafts', async (req, res) => {
-  const crafts = await Craft.find({});
+  let crafts = undefined;
+  const { title } = req.query;
+  if (title) {
+    crafts = await Craft.find({ title: new RegExp(`${title}`, 'i') });
+  } else {
+    crafts = await Craft.find({});
+  }
   res.render('index', { crafts, craftSchema });
 });
 
@@ -40,6 +46,25 @@ app.post('/api/v1/crafts', (req, res) => {
   Craft.create(req.body, () => {
     res.redirect('/api/v1/crafts');
   });
+});
+
+app.get('/api/v1/crafts/filter', async (req, res) => {
+  const { category } = req.query;
+  const { price } = req.query;
+  if (category) {
+    let crafts = await Craft.find({ category: category });
+    res.render('index', { crafts, craftSchema });
+  } else if (price) {
+    let crafts = undefined;
+    if (price === 'lt5') {
+      crafts = await Craft.find({ price: { $lt: 5 } });
+    } else if (price === 'gt50') {
+      crafts = await Craft.find({ price: { $gt: 50 } });
+    } else {
+      crafts = await Craft.find({ price: { $gte: 5, $lte: 50 } });
+    }
+    res.render('index', { crafts, craftSchema });
+  }
 });
 
 app.get('/api/v1/crafts/:id', async (req, res) => {
