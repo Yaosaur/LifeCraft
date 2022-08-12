@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700&family=Fredericka+the+Great&family=Source+Serif+4:opsz@8..60&display=swap');
-      </style>
+    </style>
     <link rel="stylesheet" href="/stylesheets/styles.css" />
+    <link rel="stylesheet" href="/stylesheets/new.css" />
     <title>Document</title>
   </head>
   <body>
@@ -23,31 +24,55 @@
       </div>
     </nav>
     <div id="product">
-      <div id="seller-dets">
+      <div id="imagePreview">
+        Your Image Here
+        <img src="" />
+      </div>
+      <div id="newForm">
         <form action="/api/v1/crafts/" method="POST">
-          <label for="Image">Image:</label>
-          <input type="text" name="image" id="image" />
-          <label for="title">Title:</label>
-          <input type="text" name="title" id="title" placeholder="Title" />
-          <label for="category-select">Choose a category:</label>
-          <select name="category" id="category-select">
-            <% for (let category of craftSchema.obj.category.enum) {%>
-            <option value="<%=category%>"><%=category%></option>
-            <% } %>
-          </select>
-          <label for="price">Price:</label>
-          <input type="number" name="price" id="price" placeholder="Price" />
-          <label for="stock">Stock:</label>
-          <input type="number" name="stock" id="stock" placeholder="Stock" />
-          <label for="description">Description:</label>
-          <textarea
-            name="description"
-            id="description"
-            cols="30"
-            rows="10"
-            placeholder="Description"
-          ></textarea>
-          <button>&#x2714;</button>
+          <div class="editable">
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" placeholder="Title" />
+          </div>
+          <div class="editable">
+            <label for="category-select">Choose a category:</label>
+            <select name="category" id="category-select">
+              <% for (let category of craftSchema.obj.category.enum) {%>
+              <option value="<%=category%>"><%=category%></option>
+              <% } %>
+            </select>
+          </div>
+          <div class="editable">
+            <label for="Image">Image:</label>
+            <input
+              type="text"
+              name="image"
+              id="image"
+              placeholder="Image URL"
+            />
+          </div>
+          <div class="editable">
+            <label for="price">Price:</label>
+            <input type="number" name="price" id="price" placeholder="Price" />
+          </div>
+          <div class="editable">
+            <label for="stock">Stock:</label>
+            <input type="number" name="stock" id="stock" placeholder="Stock" />
+          </div>
+          <div class="editable">
+            <label for="description">Description:</label>
+            <textarea
+              name="description"
+              id="description"
+              cols="75"
+              rows="10"
+              placeholder="Description"
+            ></textarea>
+          </div>
+          <button id="newButton">List Craft</button>
+        </form>
+        <form action="/api/v1/crafts/">
+          <button id="backButton">Back</button>
         </form>
       </div>
     </div>
