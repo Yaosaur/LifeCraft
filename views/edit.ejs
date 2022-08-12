@@ -9,6 +9,7 @@
     </style>
     <link rel="stylesheet" href="/stylesheets/styles.css" />
     <link rel="stylesheet" href="/stylesheets/edit.css" />
+    <script defer src="/scripts/editScript.js"></script>
     <title>Document</title>
   </head>
   <body>
@@ -25,9 +26,7 @@
     </nav>
     <div id="product">
       <div id="img">
-        <div>
-          <img src="<%=craft.image%>" />
-        </div>
+        <img src="<%=craft.image%>" />
       </div>
       <div id="editForm">
         <form action="/api/v1/crafts/<%=craft._id%>?_method=PUT" method="POST">
