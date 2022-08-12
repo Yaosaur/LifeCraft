@@ -8,8 +8,19 @@
 #imagePreview {
   grid-column: 1/1;
   font-family: 'Dosis', sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: flex-start;
+  font-family: 'Dosis', sans-serif;
   font-weight: 600;
   font-size: 50px;
+}
+
+#imagePreview span {
+  position: absolute;
+  left: 20%;
+  top: 30%;
 }
 
 #imagePreview img {
