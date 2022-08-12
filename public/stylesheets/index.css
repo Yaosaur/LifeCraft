@@ -8,6 +8,7 @@
   grid-column: 1/1;
   display: flex;
   justify-content: flex-end;
+  align-content: flex-start;
   font-family: 'Dosis', sans-serif;
   font-weight: 600;
   flex-wrap: wrap;
