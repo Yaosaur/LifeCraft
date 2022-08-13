@@ -5,6 +5,8 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const { craftSchema, Craft } = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
+const User = require('./models/user');
+const bcrypt = require('bcrypt');
 
 require('dotenv').config();
 const port = process.env.PORT || 3003;
@@ -25,6 +27,27 @@ app.get('/seed', async (req, res) => {
   await Craft.deleteMany({});
   await Craft.insertMany(craftsData);
   res.send('done!');
+});
+
+app.post('/register', async (req, res) => {
+  const { email, username, password } = req.body;
+  const hash = await bcrypt.hash(password, 12);
+  User.create({ email, username, password: hash });
+  res.redirect('/api/v1/crafts');
+});
+
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  if (!user) {
+    return res.send('Invalid credentials');
+  }
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (validPassword) {
+    res.send('works!');
+  } else {
+    res.send('no!');
+  }
 });
 
 app.get('/api/v1/crafts', async (req, res) => {

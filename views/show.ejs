@@ -12,6 +12,26 @@
     <title>Document</title>
   </head>
   <body>
+    <div id="overlay">
+      <div id="credentials">
+        <form action="/register" method="POST">
+          <label for="username">Email</label>
+          <input type="email" name="email" id="email" />
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" />
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" />
+          <button>Sign Up</button>
+        </form>
+        <form action="/login" method="POST">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" />
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" />
+          <button>Login</button>
+        </form>
+      </div>
+    </div>
     <nav id="navibar">
       <a href="/api/v1/crafts" id="logo">LifeCraft</a>
       <form action="">
