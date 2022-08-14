@@ -1,12 +1,15 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const session = require('express-session');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const flash = require('connect-flash');
 const { craftSchema, Craft } = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
 const User = require('./models/user');
-const bcrypt = require('bcrypt');
 
 require('dotenv').config();
 const port = process.env.PORT || 3003;
@@ -19,9 +22,34 @@ mongoose.connection.once('open', () => {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24,
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+  },
+};
+app.use(session(sessionOptions));
+
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  next();
+});
 
 app.get('/seed', async (req, res) => {
   await Craft.deleteMany({});
@@ -29,26 +57,28 @@ app.get('/seed', async (req, res) => {
   res.send('done!');
 });
 
-app.post('/register', async (req, res) => {
-  const { email, username, password } = req.body;
-  const hash = await bcrypt.hash(password, 12);
-  User.create({ email, username, password: hash });
-  res.redirect('/api/v1/crafts');
+app.get('/api/v1/', (req, res) => {
+  res.send('Home!');
 });
 
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
-  if (!user) {
-    return res.send('Invalid credentials');
-  }
-  const validPassword = await bcrypt.compare(password, user.password);
-  if (validPassword) {
-    res.send('works!');
-  } else {
-    res.send('no!');
-  }
+app.post('/register', async (req, res) => {
+  let { email, username, password, seller } = req.body;
+  seller === 'on' ? (seller = true) : (seller = false);
+  const user = new User({ email, username, seller });
+  await User.register(user, password);
+  res.redirect('/api/v1/');
 });
+
+app.post(
+  '/login',
+  passport.authenticate('local', {
+    failureFlash: true,
+    failureRedirect: '/api/v1/',
+  }),
+  async (req, res) => {
+    res.redirect('/api/v1/');
+  }
+);
 
 app.get('/api/v1/crafts', async (req, res) => {
   let crafts = undefined;
@@ -67,6 +97,7 @@ app.get('/api/v1/crafts/new', (req, res) => {
 
 app.post('/api/v1/crafts', (req, res) => {
   Craft.create(req.body, () => {
+    req.flash('success', 'Successfully listed a new Craft!');
     res.redirect('/api/v1/crafts');
   });
 });
