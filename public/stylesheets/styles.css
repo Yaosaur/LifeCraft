@@ -36,21 +36,3 @@ body {
 #navibar button {
   border-radius: 50%;
 }
-
-#overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-#credentials {
-  background-color: white;
-  color: black;
-  width: 400px;
-  height: 500px;
-  position: fixed;
-  top: 25%;
-  left: 40%;
-  border-radius: 25px;
-}

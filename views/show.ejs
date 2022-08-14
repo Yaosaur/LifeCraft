@@ -8,32 +8,53 @@
       @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700&family=Fredericka+the+Great&family=Source+Serif+4:opsz@8..60&display=swap');
     </style>
     <link rel="stylesheet" href="/stylesheets/styles.css" />
+    <link rel="stylesheet" href="/stylesheets/authForms.css" />
     <link rel="stylesheet" href="/stylesheets/show.css" />
     <title>Document</title>
   </head>
   <body>
     <div id="overlay">
-      <div id="credentials">
+    <div id="register">
+      <div class="title"><div class="close">&#x2715;</div><div>Register</div></div>
+      <div>
         <form action="/register" method="POST">
-          <label for="username">Email</label>
-          <input type="email" name="email" id="email" />
-          <label for="username">Username</label>
-          <input type="text" name="username" id="username" />
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" />
-          <input type="checkbox" id="seller" name="seller" />
-          <label for="seller">Sign Up as Seller</label>
+          <div>          
+            <label for="username">Email</label>
+            <input type="email" name="email" id="email" />
+          </div>
+          <div>         
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" />
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" />
+          </div>
+          <div class ="seller">
+            <label for="seller">Sign Up as Seller</label>
+            <input type="checkbox" id="seller" name="seller" />
+          </div>
           <button>Sign Up</button>
-        </form>
-        <form action="/login" method="POST">
-          <label for="username">Username</label>
-          <input type="text" name="username" id="username" />
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" />
-          <button>Login</button>
         </form>
       </div>
     </div>
+    <div id="login">
+      <div class="title"><div class="close">&#x2715;</div><div>Login</div></div>
+      <form action="/login" method="POST">
+        <div>
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" />
+        </div>
+        <button>Login</button>
+      </form>
+      </div>
+    </div>
+  </div>
+  </div>
     <nav id="navibar">
       <a href="/api/v1/crafts" id="logo">LifeCraft</a>
       <form action="">
