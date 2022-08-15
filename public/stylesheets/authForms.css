@@ -1,18 +1,19 @@
 #overlay {
+  display: none;
   position: fixed;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  font-family: 'Dosis', sans-serif;
-  font-weight: 700;
 }
 
 #register,
-#login {
-  display: flex;
+#logIn {
+  display: none;
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
+  font-family: 'Dosis', sans-serif;
+  font-weight: 700;
   background-color: white;
   color: black;
   width: 400px;
@@ -24,7 +25,7 @@
 }
 
 #register .title,
-#login .title {
+#logIn .title {
   font-size: 40px;
   text-align: center;
   width: 100%;
@@ -33,31 +34,32 @@
 }
 
 #register .close,
-#login .close {
+#logIn .close {
   position: absolute;
   left: 100%;
   top: -7%;
   font-size: 30px;
   color: white;
-  cursor: pointer;
+  cursor: default;
 }
 
 #register form div,
-#login form div {
+#logIn form div {
   font-size: 20px;
   text-align: center;
   margin-top: 15px;
 }
 
 #register form,
-#login form {
+#logIn form {
   font-size: 20px;
   text-align: center;
   flex-wrap: wrap;
 }
 
 #register form button,
-#login form button {
+#logIn form button,
+#registerBtn {
   font-size: 20px;
   font-family: 'Dosis', sans-serif;
   font-weight: 700;
@@ -69,13 +71,20 @@
   margin-top: 25px;
 }
 
+.divBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 #register form button:hover,
-#login form button:hover {
+#logIn form button:hover,
+#registerBtn:hover {
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
 }
 
 #register form input,
-#login form input {
+#logIn form input {
   width: 100%;
   font-family: 'Source Serif 4', serif;
   border-radius: 10px;

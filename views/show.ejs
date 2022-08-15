@@ -10,19 +10,23 @@
     <link rel="stylesheet" href="/stylesheets/styles.css" />
     <link rel="stylesheet" href="/stylesheets/authForms.css" />
     <link rel="stylesheet" href="/stylesheets/show.css" />
+    <script defer src="/scripts/authScript.js"></script>
     <title>Document</title>
   </head>
   <body>
-    <div id="overlay">
+    <div id="overlay"></div>
     <div id="register">
-      <div class="title"><div class="close">&#x2715;</div><div>Register</div></div>
+      <div class="title">
+        <div class="close">&#x2715;</div>
+        <div>Register</div>
+      </div>
       <div>
         <form action="/register" method="POST">
-          <div>          
+          <div>
             <label for="username">Email</label>
             <input type="email" name="email" id="email" />
           </div>
-          <div>         
+          <div>
             <label for="username">Username</label>
             <input type="text" name="username" id="username" />
           </div>
@@ -30,7 +34,7 @@
             <label for="password">Password</label>
             <input type="password" name="password" id="password" />
           </div>
-          <div class ="seller">
+          <div class="seller">
             <label for="seller">Sign Up as Seller</label>
             <input type="checkbox" id="seller" name="seller" />
           </div>
@@ -38,30 +42,33 @@
         </form>
       </div>
     </div>
-    <div id="login">
-      <div class="title"><div class="close">&#x2715;</div><div>Login</div></div>
+    <div id="logIn">
+      <div class="title">
+        <div class="close">&#x2715;</div>
+        <div>Login</div>
+      </div>
       <form action="/login" method="POST">
         <div>
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" />
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" />
         </div>
         <button>Login</button>
       </form>
-      </div>
+      <div class="divBtn"><button id="registerBtn">Register</button></div>
     </div>
-  </div>
-  </div>
     <nav id="navibar">
       <a href="/api/v1/crafts" id="logo">LifeCraft</a>
       <form action="">
         <input type="text" placeholder="Discover life's inspirations..." />
         <button><img src="/images/search-icon.png" /></button>
       </form>
-      <div>
+      <div id="navicons">
+        <div id="signIn">Sign In</div>
+        <img src="/images/cart-icon.png" />
         <img src="/images/shop-icon.png" />
         <img src="/images/bell-icon.png" />
       </div>
