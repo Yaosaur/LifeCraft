@@ -10,6 +10,7 @@ const flash = require('connect-flash');
 const { craftSchema, Craft } = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
 const User = require('./models/user');
+const { isLoggedIn, checkReturnTo } = require('./middleware');
 
 require('dotenv').config();
 const port = process.env.PORT || 3003;
@@ -47,6 +48,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   next();
 });
@@ -61,24 +63,43 @@ app.get('/api/v1/', (req, res) => {
   res.send('Home!');
 });
 
-app.post('/register', async (req, res) => {
+app.post('/register', async (req, res, next) => {
   let { email, username, password, seller } = req.body;
   seller === 'on' ? (seller = true) : (seller = false);
   const user = new User({ email, username, seller });
-  await User.register(user, password);
-  res.redirect('/api/v1/');
+  const registeredUser = await User.register(user, password);
+  req.login(registeredUser, err => {
+    if (err) {
+      return next(err);
+    } else {
+      res.redirect('/api/v1/');
+    }
+  });
 });
 
 app.post(
   '/login',
+  checkReturnTo,
   passport.authenticate('local', {
     failureFlash: true,
     failureRedirect: '/api/v1/',
   }),
   async (req, res) => {
-    res.redirect('/api/v1/');
+    const redirectUrl = res.locals.returnTo || '/api/v1/';
+    console.log(res.locals.checkReturnTo);
+    res.redirect(redirectUrl);
   }
 );
+
+app.get('/logout', (req, res, err) => {
+  req.logout(err => {
+    if (err) {
+      return next(err);
+    } else {
+      res.redirect('/api/v1/');
+    }
+  });
+});
 
 app.get('/api/v1/crafts', async (req, res) => {
   let crafts = undefined;
@@ -126,7 +147,7 @@ app.get('/api/v1/crafts/:id', async (req, res) => {
   res.render('show', { craft });
 });
 
-app.get('/api/v1/crafts/:id/edit', async (req, res) => {
+app.get('/api/v1/crafts/:id/edit', isLoggedIn, async (req, res) => {
   const craft = await Craft.findById(req.params.id);
   res.render('edit', { craft, craftSchema });
 });

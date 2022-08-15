@@ -40,6 +40,7 @@
           </div>
           <button>Sign Up</button>
         </form>
+        <div class="divBtn"><button id="backLogInBtn">Log In</button></div>
       </div>
     </div>
     <div id="logIn">
@@ -67,7 +68,11 @@
         <button><img src="/images/search-icon.png" /></button>
       </form>
       <div id="navicons">
+        <% if (!currentUser) {%>
         <div id="signIn">Sign In</div>
+        <% } else{%>
+        <div id="signOut"><a href="/logout">Sign Out</a></div>
+        <% } %>
         <img src="/images/cart-icon.png" />
         <img src="/images/shop-icon.png" />
         <img src="/images/bell-icon.png" />

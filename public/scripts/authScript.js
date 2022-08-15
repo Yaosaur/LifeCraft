@@ -3,6 +3,7 @@ const overlay = document.querySelector('#overlay');
 const logIn = document.querySelector('#logIn');
 const register = document.querySelector('#register');
 const closeBtns = document.querySelectorAll('.close');
+const registerBtn = document.querySelector('#registerBtn');
 
 const showDisplay = element => {
   element.style.display = 'flex';
@@ -29,4 +30,9 @@ closeBtns.forEach(element => {
     removeDisplay(register);
     removeDisplay(logIn);
   });
+});
+
+registerBtn.addEventListener('click', () => {
+  removeDisplay(logIn);
+  showDisplay(register);
 });

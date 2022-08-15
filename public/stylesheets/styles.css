@@ -42,9 +42,12 @@ body {
   align-items: center;
 }
 
-#signIn {
+#signIn,
+#signOut a {
   font-family: 'Dosis', sans-serif;
   font-weight: 600;
   font-size: 20px;
   cursor: default;
+  text-decoration: none;
+  color: black;
 }
