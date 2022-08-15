@@ -11,11 +11,17 @@
   crossorigin="anonymous"
 ></script>
 <link rel="stylesheet" href="/stylesheets/index.css" />
-<section>
+<% if(currentUser){ %>
+<section id="bannerUser">
+  Welcome back, <span><%= currentUser.username %> </span>!
+</section>
+<% } else {%>
+<section id="bannerWelcome">
   <div id="bannerCraft">Craft</div>
   Inspired By
   <div id="bannerLife">Life</div>
 </section>
+<% } %>
 <div class="indexTitle">Editor's Picks</div>
 <div class="container">
   <div class="row d-flex justify-content-center">

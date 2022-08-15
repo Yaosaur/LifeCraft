@@ -89,12 +89,11 @@ app.post(
   }),
   async (req, res) => {
     const redirectUrl = res.locals.returnTo || '/api/v1/';
-    console.log(res.locals.checkReturnTo);
     res.redirect(redirectUrl);
   }
 );
 
-app.get('/logout', (req, res, err) => {
+app.get('/api/v1/logout', (req, res, err) => {
   req.logout(err => {
     if (err) {
       return next(err);
