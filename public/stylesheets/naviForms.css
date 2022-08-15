@@ -16,9 +16,10 @@ body {
   justify-content: space-around;
   align-items: center;
   max-height: 100px;
-  background-color: #54bab9;
+  background-color: #9ed2c6;
   column-gap: 50px;
   position: sticky;
+  z-index: 10;
   top: 0px;
 }
 
@@ -33,7 +34,7 @@ body {
   display: flex;
   justify-content: space-around;
   background-color: white;
-  border-bottom: 2px solid #54bab9;
+  border-bottom: 2px solid #9ed2c6;
   padding: 5px 0px;
 }
 

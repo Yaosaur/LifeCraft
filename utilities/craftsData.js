@@ -170,6 +170,36 @@ const craftsData = [
     stock: 1,
     rating: 5,
   },
+  {
+    title: 'Fairy Garden Pond',
+    category: 'plants',
+    image:
+      'https://i.etsystatic.com/19813976/r/il/58d69d/2878930476/il_794xN.2878930476_hnar.jpg',
+    description: `I have added real moss and mini artificial flowers. The base is approx: 5" in diameter. What you receive will be not exactly this, shown on the photos, as these are handmade, but will be very close what is in the photo.`,
+    price: 33.15,
+    stock: 1,
+    rating: 5,
+  },
+  {
+    title: 'Forget Me Not Resin Earrings',
+    category: 'jewelry',
+    image:
+      'https://i.etsystatic.com/13272069/r/il/a2ecf7/3036568830/il_794xN.3036568830_fujz.jpg',
+    description: `Materials: Real Flower/ Resin / Brass (Earrings hooks are 14k gold plated or sterling silver plated)`,
+    price: 21.2,
+    stock: 10,
+    rating: 5,
+  },
+  {
+    title: 'Adorable Resin Heart Earrings',
+    category: 'jewelry',
+    image:
+      'https://i.etsystatic.com/21269943/r/il/3492e8/2210355899/il_794xN.2210355899_n74x.jpg',
+    description: `Very cute resin earrings made with resin and iridescent flakes.`,
+    price: 5,
+    stock: 20,
+    rating: 5,
+  },
 ];
 
 module.exports = craftsData;
