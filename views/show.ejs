@@ -1,144 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700&family=Fredericka+the+Great&family=Source+Serif+4:opsz@8..60&display=swap');
-    </style>
-    <link rel="stylesheet" href="/stylesheets/styles.css" />
-    <link rel="stylesheet" href="/stylesheets/authForms.css" />
-    <link rel="stylesheet" href="/stylesheets/show.css" />
-    <script defer src="/scripts/authScript.js"></script>
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="overlay"></div>
-    <div id="register">
-      <div class="title">
-        <div class="close">&#x2715;</div>
-        <div>Register</div>
-      </div>
+<% layout('layouts/boilerplate') -%>
+<link rel="stylesheet" href="/stylesheets/show.css" />
+<div id="product">
+  <div id="img-review">
+    <div>
+      <img src="<%=craft.image%>" />
+    </div>
+    <div id="reviews">
+      Reviews
       <div>
-        <form action="/register" method="POST">
-          <div>
-            <label for="username">Email</label>
-            <input type="email" name="email" id="email" />
-          </div>
-          <div>
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" />
-          </div>
-          <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" />
-          </div>
-          <div class="seller">
-            <label for="seller">Sign Up as Seller</label>
-            <input type="checkbox" id="seller" name="seller" />
-          </div>
-          <button>Sign Up</button>
-        </form>
-        <div class="divBtn"><button id="backLogInBtn">Log In</button></div>
+        <div>Title of Review</div>
+        <div>Review Description</div>
+        <div>Username on Date</div>
       </div>
     </div>
-    <div id="logIn">
-      <div class="title">
-        <div class="close">&#x2715;</div>
-        <div>Login</div>
-      </div>
-      <form action="/login" method="POST">
-        <div>
-          <label for="username">Username</label>
-          <input type="text" name="username" id="username" />
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" />
-        </div>
-        <button>Login</button>
+  </div>
+  <div id="details">
+    <div id="productTitle">
+      <%=craft.title %>
+      <form action="/api/v1/crafts/<%=craft._id%>/edit" method="GET">
+        <button>Edit Craft</button>
       </form>
-      <div class="divBtn"><button id="registerBtn">Register</button></div>
-    </div>
-    <nav id="navibar">
-      <a href="/api/v1/crafts" id="logo">LifeCraft</a>
-      <form action="">
-        <input type="text" placeholder="Discover life's inspirations..." />
-        <button><img src="/images/search-icon.png" /></button>
+      <form
+        action="/api/v1/crafts/<%=craft._id%>/?_method=DELETE"
+        method="POST"
+      >
+        <button>Delist Craft</button>
       </form>
-      <div id="navicons">
-        <% if (!currentUser) {%>
-        <div id="signIn">Sign In</div>
-        <% } else{%>
-        <div id="signOut"><a href="/logout">Sign Out</a></div>
-        <% } %>
-        <img src="/images/cart-icon.png" />
-        <img src="/images/shop-icon.png" />
-        <img src="/images/bell-icon.png" />
-      </div>
-    </nav>
-    <div id="product">
-      <div id="img-review">
-        <div>
-          <img src="<%=craft.image%>" />
-        </div>
-        <div id="reviews">
-          Reviews
-          <div>
-            <div>Title of Review</div>
-            <div>Review Description</div>
-            <div>Username on Date</div>
-          </div>
-        </div>
-      </div>
-      <div id="details">
-        <div id="productTitle">
-          <%=craft.title %>
-          <form action="/api/v1/crafts/<%=craft._id%>/edit" method="GET">
-            <button>Edit Craft</button>
-          </form>
-          <form
-            action="/api/v1/crafts/<%=craft._id%>/?_method=DELETE"
-            method="POST"
-          >
-            <button>Delist Craft</button>
-          </form>
-        </div>
-        <div class="price">$ <%=craft.price.toFixed(2)%></div>
-        <% if (craft.stock > 0) {%>
-        <div id="qtySelect">
-          <label for="qty-select">Quantity</label>
-          <br />
-          <select name="qty-select" id="qty-select">
-            <% for (let i = 1; i <= craft.stock ; i ++) {%>
-            <option value="<%= i %> "><%= i %></option>
-            <% } %>
-          </select>
-        </div>
-        <div id="shoppingButtons">
-          <form action="/api/v1/crafts/<%=craft._id%>/edit" method="GET">
-            <button id="buyButton">Buy Now | <%=craft.stock%> in stock</button>
-          </form>
-          <form
-            action="/api/v1/crafts/<%=craft._id%>/?_method=DELETE"
-            method="POST"
-          >
-            <button id="addCartButton">Add to Cart</button>
-          </form>
-        </div>
-        <% } else {%>
-        <div id="OOS">Out Of Stock!</div>
-        <% } %>
-        <div id="shipping">
-          <div>Shipping Fee</div>
-          <div>Shipping Arrival</div>
-        </div>
-        <div id="description">
-          <div>Description</div>
-          <%=craft.description%>
-        </div>
-      </div>
     </div>
-  </body>
-</html>
+    <div class="price">$ <%=craft.price.toFixed(2)%></div>
+    <% if (craft.stock > 0) {%>
+    <div id="qtySelect">
+      <label for="qty-select">Quantity</label>
+      <br />
+      <select name="qty-select" id="qty-select">
+        <% for (let i = 1; i <= craft.stock ; i ++) {%>
+        <option value="<%= i %> "><%= i %></option>
+        <% } %>
+      </select>
+    </div>
+    <div id="shoppingButtons">
+      <form action="/api/v1/crafts/<%=craft._id%>/edit" method="GET">
+        <button id="buyButton">Buy Now | <%=craft.stock%> in stock</button>
+      </form>
+      <form
+        action="/api/v1/crafts/<%=craft._id%>/?_method=DELETE"
+        method="POST"
+      >
+        <button id="addCartButton">Add to Cart</button>
+      </form>
+    </div>
+    <% } else {%>
+    <div id="OOS">Out Of Stock!</div>
+    <% } %>
+    <div id="shipping">
+      <div>Shipping Fee</div>
+      <div>Shipping Arrival</div>
+    </div>
+    <div id="description">
+      <div>Description</div>
+      <%=craft.description%>
+    </div>
+  </div>
+</div>

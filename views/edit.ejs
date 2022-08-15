@@ -1,93 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700&family=Fredericka+the+Great&family=Source+Serif+4:opsz@8..60&display=swap');
-    </style>
-    <link rel="stylesheet" href="/stylesheets/styles.css" />
-    <link rel="stylesheet" href="/stylesheets/edit.css" />
-    <script defer src="/scripts/editScript.js"></script>
-    <title>Document</title>
-  </head>
-  <body>
-    <nav id="navibar">
-      <a href="/api/v1/crafts" id="logo">LifeCraft</a>
-      <form action="">
-        <input type="text" placeholder="Discover life's inspirations..." />
-        <button><img src="/images/search-icon.png" /></button>
-      </form>
-      <div id="navicons">
-        <div id="signIn">Sign In</div>
-        <img src="/images/cart-icon.png" />
-        <img src="/images/shop-icon.png" />
-        <img src="/images/bell-icon.png" />
+<% layout('layouts/boilerplate') -%>
+<link rel="stylesheet" href="/stylesheets/edit.css" />
+<script defer src="/scripts/editScript.js"></script>
+<div id="product">
+  <div id="img">
+    <img src="<%=craft.image%>" />
+  </div>
+  <div id="editForm">
+    <form action="/api/v1/crafts/<%=craft._id%>?_method=PUT" method="POST">
+      <div class="editable">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" value="<%=craft.title %>" />
       </div>
-    </nav>
-    <div id="product">
-      <div id="img">
-        <img src="<%=craft.image%>" />
+      <div class="editable">
+        <label for="category-select">Choose a category:</label>
+        <select name="category" id="category-select">
+          <% for (let category of craftSchema.obj.category.enum) {%>
+          <option value="<%=category%>"><%=category%></option>
+          <% } %>
+        </select>
       </div>
-      <div id="editForm">
-        <form action="/api/v1/crafts/<%=craft._id%>?_method=PUT" method="POST">
-          <div class="editable">
-            <label for="title">Title:</label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              value="<%=craft.title %>"
-            />
-          </div>
-          <div class="editable">
-            <label for="category-select">Choose a category:</label>
-            <select name="category" id="category-select">
-              <% for (let category of craftSchema.obj.category.enum) {%>
-              <option value="<%=category%>"><%=category%></option>
-              <% } %>
-            </select>
-          </div>
-          <div class="editable">
-            <label for="image">Image:</label>
-            <input
-              type="text"
-              name="image"
-              id="image"
-              value="<%=craft.image%>"
-            />
-          </div>
-          <div class="editable">
-            <label for="price">Price:</label>
-            <input
-              type="number"
-              name="price"
-              id="price"
-              value="<%=craft.price%>"
-            />
-          </div>
-          <div class="editable">
-            <label for="stock">Stock:</label>
-            <input
-              type="number"
-              name="stock"
-              id="stock"
-              value="<%=craft.stock%>"
-            />
-          </div>
-          <div class="editable">
-            <label for="description">Description:</label>
-            <textarea name="description" id="description" cols="75" rows="10">
+      <div class="editable">
+        <label for="image">Image:</label>
+        <input type="text" name="image" id="image" value="<%=craft.image%>" />
+      </div>
+      <div class="editable">
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price" value="<%=craft.price%>" />
+      </div>
+      <div class="editable">
+        <label for="stock">Stock:</label>
+        <input type="number" name="stock" id="stock" value="<%=craft.stock%>" />
+      </div>
+      <div class="editable">
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" cols="75" rows="10">
 <%=craft.description%></textarea
-            >
-          </div>
-          <button id="saveButton">Save Craft</button>
-        </form>
-        <form action="/api/v1/crafts/<%=craft._id%>">
-          <button id="backButton">Back</button>
-        </form>
+        >
       </div>
-    </div>
-  </body>
-</html>
+      <button id="saveButton">Save Craft</button>
+    </form>
+    <form action="/api/v1/crafts/<%=craft._id%>">
+      <button id="backButton">Back</button>
+    </form>
+  </div>
+</div>

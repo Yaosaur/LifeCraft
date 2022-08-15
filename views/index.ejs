@@ -1,98 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700&family=Fredericka+the+Great&family=Source+Serif+4:opsz@8..60&display=swap');
-    </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/stylesheets/styles.css" />
-    <link rel="stylesheet" href="/stylesheets/index.css" />
-    <title>LifeCraft</title>
-  </head>
-  <body>
-    <nav id="navibar">
-      <a href="/api/v1/crafts" id="logo">LifeCraft</a>
-      <form action="/api/v1/crafts">
-        <input
-          type="search"
-          name="title"
-          placeholder="Discover life's inspirations..."
-        />
-        <button><img src="/images/search-icon.png" /></button>
-      </form>
-      <div id="navicons">
-        <div id="signIn">Sign In</div>
-        <img src="/images/cart-icon.png" />
-        <img src="/images/shop-icon.png" />
-        <img src="/images/bell-icon.png" />
+<% layout('layouts/boilerplate') -%>
+<link rel="stylesheet" href="/stylesheets/index.css" />
+<div id="seller-dashboard">
+  <div id="display">
+    <form action="/api/v1/crafts">
+      <input
+        type="search"
+        name="title"
+        placeholder="Browse your life's work..."
+      />
+      <button><img src="/images/search-icon.png" /></button>
+    </form>
+    <div id="cards">
+      <%for (let craft of crafts){%>
+      <div class="card">
+        <a href="/api/v1/crafts/<%=craft._id%>"
+          ><img src="<%=craft.image%>" /></a
+        ><span class="price">$<%=craft.price.toFixed(2)%></span>
+        <span class="title"><%=craft.title%></span>
       </div>
-    </nav>
-    <div id="seller-dashboard">
-      <div id="display">
-        <form action="/api/v1/crafts">
-          <input
-            type="search"
-            name="title"
-            placeholder="Browse your life's work..."
-          />
-          <button><img src="/images/search-icon.png" /></button>
-        </form>
-        <div id="cards">
-          <%for (let craft of crafts){%>
-          <div class="card">
-            <a href="/api/v1/crafts/<%=craft._id%>"
-              ><img src="<%=craft.image%>" /></a
-            ><span class="price">$<%=craft.price.toFixed(2)%></span>
-            <span class="title"><%=craft.title%></span>
-          </div>
-          <% } %>
-        </div>
-      </div>
-      <div id="controls">
-        <div id="storeName">Name of Store</div>
-        <div>Sales Total/Store Rating</div>
-        <form action="/api/v1/crafts/new">
-          <button id="new">New Craft</button>
-        </form>
-        <form action="">
-          <div>Filter Crafts</div>
-          <fieldset>
-            <legend>Category</legend>
-            <% for (let category of craftSchema.obj.category.enum) {%>
-            <input type="radio" id="<%=category%>" name="category" />
-            <label for="<%=category%>"
-              ><a href="/api/v1/crafts/filter?category=<%=category%>"
-                ><%=category%></a
-              ></label
-            >
-            <% } %>
-          </fieldset>
-          <fieldset>
-            <legend>Price</legend>
-            <input type="radio" id="5-" name="price" />
-            <label for="5-"
-              ><a href="/api/v1/crafts/filter?price=lt5">Under $5</a></label
-            >
-            <input type="radio" id="5-50" name="price" />
-            <label for="5-50"
-              ><a href="/api/v1/crafts/filter?price=min5max50"
-                >$5 to $50</a
-              ></label
-            >
-            <input type="radio" id="50+" name="price" />
-            <label for="50+"
-              ><a href="/api/v1/crafts/filter?price=gt50">Over $50</a></label
-            >
-          </fieldset>
-          <fieldset>
-            <legend>Rating</legend>
-            <input type="radio" id="" />
-            <label for="kraken">Kraken</label>
-          </fieldset>
-        </form>
-      </div>
+      <% } %>
     </div>
-  </body>
-</html>
+  </div>
+  <div id="controls">
+    <div id="storeName">Name of Store</div>
+    <div>Sales Total/Store Rating</div>
+    <form action="/api/v1/crafts/new">
+      <button id="new">New Craft</button>
+    </form>
+    <form action="">
+      <div>Filter Crafts</div>
+      <fieldset>
+        <legend>Category</legend>
+        <% for (let category of craftSchema.obj.category.enum) {%>
+        <input type="radio" id="<%=category%>" name="category" />
+        <label for="<%=category%>"
+          ><a href="/api/v1/crafts/filter?category=<%=category%>"
+            ><%=category%></a
+          ></label
+        >
+        <% } %>
+      </fieldset>
+      <fieldset>
+        <legend>Price</legend>
+        <input type="radio" id="5-" name="price" />
+        <label for="5-"
+          ><a href="/api/v1/crafts/filter?price=lt5">Under $5</a></label
+        >
+        <input type="radio" id="5-50" name="price" />
+        <label for="5-50"
+          ><a href="/api/v1/crafts/filter?price=min5max50">$5 to $50</a></label
+        >
+        <input type="radio" id="50+" name="price" />
+        <label for="50+"
+          ><a href="/api/v1/crafts/filter?price=gt50">Over $50</a></label
+        >
+      </fieldset>
+      <fieldset>
+        <legend>Rating</legend>
+        <input type="radio" id="" />
+        <label for="kraken">Kraken</label>
+      </fieldset>
+    </form>
+  </div>
+</div>
