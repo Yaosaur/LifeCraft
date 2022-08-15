@@ -44,7 +44,7 @@
           <div class="card">
             <a href="/api/v1/crafts/<%=craft._id%>"
               ><img src="<%=craft.image%>" /></a
-            ><span class="price">$<%=craft.price%></span>
+            ><span class="price">$<%=craft.price.toFixed(2)%></span>
             <span class="title"><%=craft.title%></span>
           </div>
           <% } %>

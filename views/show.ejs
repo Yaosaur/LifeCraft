@@ -105,7 +105,7 @@
             <button>Delist Craft</button>
           </form>
         </div>
-        <div class="price">$ <%=craft.price%></div>
+        <div class="price">$ <%=craft.price.toFixed(2)%></div>
         <% if (craft.stock > 0) {%>
         <div id="qtySelect">
           <label for="qty-select">Quantity</label>

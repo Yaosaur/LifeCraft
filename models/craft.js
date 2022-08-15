@@ -4,7 +4,7 @@ const craftSchema = new mongoose.Schema({
   title: { type: String, required: true },
   category: {
     type: String,
-    enum: ['jewelry', 'prints', 'clothing'],
+    enum: ['jewelry', 'prints', 'clothing', 'ceramics', 'plants'],
     required: true,
   },
   image: { type: String, required: true },
