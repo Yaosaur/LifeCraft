@@ -25,14 +25,29 @@ body {
 
 #navibar input {
   border-radius: 20px;
-  width: 80%;
+  width: 90%;
 }
 
 #navibar form {
   display: flex;
-  flex-grow: 1;
+  width: 70%;
 }
 
 #navibar button {
   border-radius: 50%;
+}
+
+#navicons {
+  display: flex;
+  align-items: center;
+}
+
+#signIn,
+#signOut a {
+  font-family: 'Dosis', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  cursor: default;
+  text-decoration: none;
+  color: black;
 }
