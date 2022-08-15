@@ -160,6 +160,16 @@ const craftsData = [
     stock: 2,
     rating: 5,
   },
+  {
+    title: 'Handmade Fairy Garden Miniature Pond',
+    category: 'plants',
+    image:
+      'https://i.etsystatic.com/7598674/r/il/ed8738/3210692479/il_794xN.3210692479_2sdf.jpg',
+    description: `Made with a terra cotta saucer as base. Wild plants and moss are all around the saucer, with stepping stones leading into the pond. One fish is seen swimming about in the clear water. Approximately 3 1/2"-4" diameter and 1-1 1/2" to the tallest plant. Plants are either dried or faux—for indoor use.`,
+    price: 24.5,
+    stock: 1,
+    rating: 5,
+  },
 ];
 
 module.exports = craftsData;

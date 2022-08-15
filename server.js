@@ -61,8 +61,9 @@ app.get('/seed', async (req, res) => {
   res.send('done!');
 });
 
-app.get('/api/v1/', (req, res) => {
-  res.send('Home!');
+app.get('/api/v1/', async (req, res) => {
+  const crafts = await Craft.find({});
+  res.render('index', { crafts, craftSchema });
 });
 
 app.post('/register', async (req, res, next) => {
@@ -111,7 +112,7 @@ app.get('/api/v1/crafts', async (req, res) => {
   } else {
     crafts = await Craft.find({});
   }
-  res.render('index', { crafts, craftSchema });
+  res.render('sellerIndex', { crafts, craftSchema });
 });
 
 app.get('/api/v1/crafts/new', (req, res) => {
@@ -130,7 +131,7 @@ app.get('/api/v1/crafts/filter', async (req, res) => {
   const { price } = req.query;
   if (category) {
     let crafts = await Craft.find({ category: category });
-    res.render('index', { crafts, craftSchema });
+    res.render('sellerIndex', { crafts, craftSchema });
   } else if (price) {
     let crafts = undefined;
     if (price === 'lt5') {
@@ -140,7 +141,7 @@ app.get('/api/v1/crafts/filter', async (req, res) => {
     } else {
       crafts = await Craft.find({ price: { $gte: 5, $lte: 50 } });
     }
-    res.render('index', { crafts, craftSchema });
+    res.render('sellerIndex', { crafts, craftSchema });
   }
 });
 

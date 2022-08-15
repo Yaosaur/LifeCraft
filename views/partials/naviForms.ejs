@@ -46,19 +46,28 @@
   <div class="divBtn"><button id="registerBtn">Register</button></div>
 </div>
 <nav id="navibar">
-  <a href="/api/v1/crafts" id="logo">LifeCraft</a>
-  <form action="">
-    <input type="text" placeholder="Discover life's inspirations..." />
-    <button><img src="/images/search-icon.png" /></button>
-  </form>
-  <div id="navicons">
-    <% if (!currentUser) {%>
-    <div id="signIn">Sign In</div>
-    <% } else{%>
-    <div id="signOut"><a href="/logout">Sign Out</a></div>
-    <% } %>
-    <img src="/images/cart-icon.png" />
-    <img src="/images/shop-icon.png" />
-    <img src="/images/bell-icon.png" />
+  <div id="naviTop">
+    <a href="/api/v1/" id="logo">LifeCraft</a>
+    <form action="">
+      <input type="text" placeholder="Discover life's inspirations..." />
+      <button><img src="/images/search-icon.png" /></button>
+    </form>
+    <div id="navicons">
+      <% if (!currentUser) {%>
+      <div id="signIn">Sign In</div>
+      <% } else{%>
+      <div id="signOut"><a href="/logout">Sign Out</a></div>
+      <% } %>
+      <img src="/images/cart-icon.png" />
+      <img src="/images/shop-icon.png" />
+      <img src="/images/bell-icon.png" />
+    </div>
+  </div>
+  <div id="naviBottom">
+    <a href="">Jewelry</a>
+    <a href="">Prints</a>
+    <a href="">Clothing</a>
+    <a href="">Ceramics</a>
+    <a href="">Plants</a>
   </div>
 </nav>
