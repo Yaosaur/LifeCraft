@@ -1,9 +1,63 @@
 <% layout('layouts/boilerplate') -%>
 <link rel="stylesheet" href="/stylesheets/cart.css" />
 <div id="totalItems">
-  <div>There are X items in your cart.</div>
+  <% if (!currentUser) {%>
+  <div>Please sign in to purchase.</div>
+  <% } else {%>
+  <div>There are <%=cart.products.length%> item(s) in your cart.</div>
 </div>
 <div id="main">
-  <div id="cartItems"></div>
-  <div id="checkOut"></div>
+  <div id="cartItems">
+    <% if (cart.products.length > 0){%> <% for (item of cart.products) {%>
+    <div class="item">
+      <div class="card">
+        <div class="title"><%=item.product.title%></div>
+        <img src="<%=item.product.image%>" />
+      </div>
+      <button>Remove</button>
+      <select name="quantity" id="quantity">
+        <% for (let i = 1; i <= item.product.stock ; i ++) {%> <% if(i ===
+        item.quantity) {%>
+        <option value="<%=i%>" selected="selected"><%=i%></option>
+        <% } else{%>
+        <option value="<%=i%>"><%=i%></option>
+        <% } %> <% } %>
+      </select>
+      <div class="price">
+        <span class="totalPrice"
+          >$<%=(item.product.price*item.quantity).toFixed(2)%></span
+        >
+        <span>($<%=item.product.price.toFixed(2)%> each)</span>
+      </div>
+    </div>
+    <% } %> <% } %>
+  </div>
+  <div id="checkOut">
+    <span>How Will You Pay?</span>
+    <form action="">
+      <div>
+        <input type="radio" id="cards" name="payment" />
+        <label for="cards"
+          ><img src="/images/visa.png" /><img
+            src="/images/mastercard.png"
+          /><img src="/images/amex.png" />
+          <img src="/images/discover.png" />
+        </label>
+      </div>
+      <div>
+        <input type="radio" id="paypal" name="payment" />
+        <label for="paypal"><img src="/images/paypal.png" /></label>
+      </div>
+      <div>
+        <input type="radio" id="klarna" name="payment" />
+        <label for="klarna"><img src="/images/klarna.png" /></label>
+      </div>
+      <div id="total">
+        <span>Item(s) total</span>
+        <span>$<%=grandTotal%></span>
+      </div>
+      <button>Purchase!</button>
+    </form>
+  </div>
+  <% } %>
 </div>

@@ -11,6 +11,7 @@ const flash = require('connect-flash');
 const { craftSchema, Craft } = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
 const User = require('./models/user');
+const Cart = require('./models/cart');
 const { isLoggedIn, checkReturnTo } = require('./middleware');
 
 require('dotenv').config();
@@ -98,7 +99,9 @@ app.get('/api/v1/crafts/filter', async (req, res) => {
 app.post('/register', async (req, res, next) => {
   let { email, username, password, seller } = req.body;
   seller === 'on' ? (seller = true) : (seller = false);
-  const user = new User({ email, username, seller });
+  const cart = new Cart();
+  await cart.save();
+  const user = new User({ email, username, seller, cart });
   const registeredUser = await User.register(user, password);
   req.login(registeredUser, err => {
     if (err) {
@@ -133,7 +136,34 @@ app.get('/api/v1/logout', (req, res, err) => {
 });
 
 app.get('/api/v1/cart', async (req, res) => {
-  res.render('cart');
+  let cart = undefined;
+  let grandTotal = undefined;
+  if (res.locals.currentUser) {
+    cart = await Cart.findById(
+      res.locals.currentUser.cart._id.toString()
+    ).populate({
+      path: 'products',
+      populate: {
+        path: 'product',
+      },
+    });
+    console.log(cart.products);
+    const totalPrice = cart.products.map(x => x.product.price * x.quantity);
+    grandTotal = totalPrice.reduce((prev, curr) => prev + curr, 0);
+  }
+  res.render('cart', { cart, grandTotal });
+});
+
+app.post('/api/v1/cart', isLoggedIn, async (req, res) => {
+  const cart = await Cart.findById(res.locals.currentUser.cart._id.toString());
+  const product = await Craft.findById(req.body.craftId);
+  const newProduct = {
+    product,
+    quantity: req.body.quantity,
+  };
+  cart.products.push(newProduct);
+  await cart.save();
+  res.redirect('/api/v1/cart');
 });
 
 app.get('/api/v1/seller/crafts', async (req, res) => {
