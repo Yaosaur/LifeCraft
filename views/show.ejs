@@ -16,7 +16,7 @@
   </div>
   <div id="details">
     <div id="productTitle">
-      <%=craft.title %>
+      <%=craft.title %> <% if (currentUser && currentUser.seller === true){ %>
       <form action="/api/v1/crafts/<%=craft._id%>/edit" method="GET">
         <button>Edit Craft</button>
       </form>
@@ -26,6 +26,7 @@
       >
         <button>Delist Craft</button>
       </form>
+      <% } %>
     </div>
     <div class="price">$ <%=craft.price.toFixed(2)%></div>
     <% if (craft.stock > 0) {%>

@@ -37,7 +37,7 @@ body {
   margin-top: 10px;
 }
 
-.card {
+#results .card {
   width: 250px;
   height: 250px;
   position: relative;
