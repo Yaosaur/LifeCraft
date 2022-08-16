@@ -31,8 +31,6 @@ body {
 }
 
 #filter {
-  position: sticky;
-  top: 40px;
   width: 15%;
   margin-top: 10px;
 }
