@@ -1,9 +1,17 @@
 <% layout('layouts/boilerplate') -%>
 <link rel="stylesheet" href="/stylesheets/index.css" />
-<div id="query"><div>Find something you love</div></div>
+<div id="query">
+  <% if (title){ %>
+  <div>Your search for "<%=title%>"</div>
+  <% } else{%>
+  <div>Find something you love</div>
+  <% } %>
+</div>
 <div id="main">
   <div id="results">
-    <% for (craft of crafts) {%>
+    <% if(crafts.length === 0){ %>
+    <div>Nothing found.</div>
+    <% } %> <% for (craft of crafts) {%>
     <div class="card">
       <a href="/api/v1/crafts/<%=craft._id%>"><img src="<%=craft.image%>" /></a
       ><span class="price">$<%=craft.price.toFixed(2)%></span>
@@ -16,16 +24,16 @@
     <fieldset>
       <legend>Category</legend>
       <% for (let category of craftSchema.obj.category.enum) {%>
-      <a href="/api/v1/seller/crafts/filter?category=<%=category%>"
+      <a href="/api/v1/crafts/filter?category=<%=category%>"
         ><%=category.charAt(0).toUpperCase() + category.slice(1)%></a
       >
       <% } %>
     </fieldset>
     <fieldset>
       <legend>Price</legend>
-      <a href="/api/v1/seller/crafts/filter?price=lt5">Under $5</a>
-      <a href="/api/v1/seller/crafts/filter?price=min5max50">$5 to $50</a>
-      <a href="/api/v1/seller/crafts/filter?price=gt50">Over $50</a>
+      <a href="/api/v1/crafts/filter?price=lt5">Under $5</a>
+      <a href="/api/v1/crafts/filter?price=min5max50">$5 to $50</a>
+      <a href="/api/v1/crafts/filter?price=gt50">Over $50</a>
     </fieldset>
   </div>
 </div>

@@ -23,6 +23,13 @@ body {
   width: 80%;
 }
 
+#results div {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 400;
+  font-size: 30px;
+  margin-top: 15px;
+}
+
 #filter {
   position: sticky;
   top: 40px;
