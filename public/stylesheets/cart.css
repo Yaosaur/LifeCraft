@@ -1,0 +1,9 @@
+#totalItems {
+  width: 100%;
+  background-color: rgba(158, 210, 198, 0.5);
+  height: 100%;
+  padding: 20px;
+  font-size: 35px;
+  font-family: 'Source Serif 4', serif;
+  font-weight: 400;
+}

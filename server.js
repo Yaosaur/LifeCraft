@@ -132,6 +132,10 @@ app.get('/api/v1/logout', (req, res, err) => {
   });
 });
 
+app.get('/api/v1/cart', async (req, res) => {
+  res.render('cart');
+});
+
 app.get('/api/v1/seller/crafts', async (req, res) => {
   let crafts = undefined;
   const { title } = req.query;
