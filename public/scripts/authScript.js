@@ -13,10 +13,12 @@ const removeDisplay = element => {
   element.style.display = 'none';
 };
 
-signIn.addEventListener('click', () => {
-  showDisplay(overlay);
-  showDisplay(logIn);
-});
+if (signIn) {
+  signIn.addEventListener('click', () => {
+    showDisplay(overlay);
+    showDisplay(logIn);
+  });
+}
 
 overlay.addEventListener('click', () => {
   removeDisplay(overlay);

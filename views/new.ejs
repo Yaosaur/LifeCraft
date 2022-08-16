@@ -10,7 +10,7 @@
         <input type="text" name="title" id="title" placeholder="Title" />
       </div>
       <div class="editable">
-        <label for="category-select">Choose a category:</label>
+        <label for="category-select">Category:</label>
         <select name="category" id="category-select">
           <% for (let category of craftSchema.obj.category.enum) {%>
           <option value="<%=category%>"><%=category%></option>

@@ -17,15 +17,17 @@
   <div id="details">
     <div id="productTitle">
       <%=craft.title %> <% if (currentUser && currentUser.seller === true){ %>
-      <form action="/api/v1/crafts/<%=craft._id%>/edit" method="GET">
-        <button>Edit Craft</button>
-      </form>
-      <form
-        action="/api/v1/crafts/<%=craft._id%>/?_method=DELETE"
-        method="POST"
-      >
-        <button>Delist Craft</button>
-      </form>
+      <div id="sellerBtns">
+        <form action="/api/v1/crafts/<%=craft._id%>/edit" method="GET">
+          <button>Edit Craft</button>
+        </form>
+        <form
+          action="/api/v1/crafts/<%=craft._id%>/?_method=DELETE"
+          method="POST"
+        >
+          <button>Delist Craft</button>
+        </form>
+      </div>
       <% } %>
     </div>
     <div class="price">$ <%=craft.price.toFixed(2)%></div>

@@ -44,7 +44,7 @@ section span {
   font-weight: 400;
   letter-spacing: 5px;
   margin-top: 15px;
-  margin-bottom: 15px;
+  padding-left: 9%;
 }
 
 .carousel-inner {
