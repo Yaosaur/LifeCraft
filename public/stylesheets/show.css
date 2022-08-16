@@ -112,6 +112,7 @@ select {
 #addCartButton {
   background-color: #9ed2c6;
   color: #f7ecde;
+  margin-top: 15px;
 }
 
 #shoppingButtons {
