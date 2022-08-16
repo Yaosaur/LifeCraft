@@ -28,6 +28,7 @@ body {
   width: 100%;
   font-family: 'Dosis', sans-serif;
   font-weight: 600;
+  font-size: 15px;
 }
 
 #naviBottom {
@@ -74,6 +75,12 @@ body {
 #naviBottom a {
   text-decoration: none;
   color: black;
+  transition: 300ms;
+  letter-spacing: 1px;
+}
+
+#naviBottom a:hover {
+  letter-spacing: 3px;
 }
 
 #signIn,

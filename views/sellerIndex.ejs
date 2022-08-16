@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/sellerIndex.css" />
 <div id="seller-dashboard">
   <div id="display">
-    <form action="/api/v1/crafts">
+    <form action="/api/v1/seller/crafts">
       <input
         type="search"
         name="title"
@@ -34,7 +34,7 @@
         <% for (let category of craftSchema.obj.category.enum) {%>
         <input type="radio" id="<%=category%>" name="category" />
         <label for="<%=category%>"
-          ><a href="/api/v1/crafts/filter?category=<%=category%>"
+          ><a href="/api/v1/seller/crafts/filter?category=<%=category%>"
             ><%=category%></a
           ></label
         >
@@ -44,15 +44,17 @@
         <legend>Price</legend>
         <input type="radio" id="5-" name="price" />
         <label for="5-"
-          ><a href="/api/v1/crafts/filter?price=lt5">Under $5</a></label
+          ><a href="/api/v1/seller/crafts/filter?price=lt5">Under $5</a></label
         >
         <input type="radio" id="5-50" name="price" />
         <label for="5-50"
-          ><a href="/api/v1/crafts/filter?price=min5max50">$5 to $50</a></label
+          ><a href="/api/v1/seller/crafts/filter?price=min5max50"
+            >$5 to $50</a
+          ></label
         >
         <input type="radio" id="50+" name="price" />
         <label for="50+"
-          ><a href="/api/v1/crafts/filter?price=gt50">Over $50</a></label
+          ><a href="/api/v1/seller/crafts/filter?price=gt50">Over $50</a></label
         >
       </fieldset>
       <fieldset>

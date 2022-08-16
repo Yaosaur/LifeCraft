@@ -62,6 +62,10 @@ app.get('/seed', async (req, res) => {
 });
 
 app.get('/api/v1/', async (req, res) => {
+  res.render('home');
+});
+
+app.get('/api/v1/crafts', async (req, res) => {
   const crafts = await Craft.find({});
   res.render('index', { crafts, craftSchema });
 });
@@ -103,7 +107,7 @@ app.get('/api/v1/logout', (req, res, err) => {
   });
 });
 
-app.get('/api/v1/crafts', async (req, res) => {
+app.get('/api/v1/seller/crafts', async (req, res) => {
   let crafts = undefined;
   const { title } = req.query;
   if (title) {
@@ -125,7 +129,7 @@ app.post('/api/v1/crafts', (req, res) => {
   });
 });
 
-app.get('/api/v1/crafts/filter', async (req, res) => {
+app.get('/api/v1/seller/crafts/filter', async (req, res) => {
   const { category } = req.query;
   const { price } = req.query;
   if (category) {
