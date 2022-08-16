@@ -11,6 +11,7 @@ const flash = require('connect-flash');
 const { craftSchema, Craft } = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
 const User = require('./models/user');
+const Cart = require('./models/cart');
 const { isLoggedIn, checkReturnTo } = require('./middleware');
 
 require('dotenv').config();
@@ -98,7 +99,8 @@ app.get('/api/v1/crafts/filter', async (req, res) => {
 app.post('/register', async (req, res, next) => {
   let { email, username, password, seller } = req.body;
   seller === 'on' ? (seller = true) : (seller = false);
-  const user = new User({ email, username, seller });
+  const cart = new Cart();
+  const user = new User({ email, username, seller, cart });
   const registeredUser = await User.register(user, password);
   req.login(registeredUser, err => {
     if (err) {

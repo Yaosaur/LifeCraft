@@ -1,7 +1,11 @@
 <% layout('layouts/boilerplate') -%>
 <link rel="stylesheet" href="/stylesheets/cart.css" />
 <div id="totalItems">
+  <% if (!currentUser) {%>
+  <div>Please sign in to purchase.</div>
+  <% } else {%>
   <div>There are X items in your cart.</div>
+  <% } %>
 </div>
 <div id="main">
   <div id="cartItems"></div>
