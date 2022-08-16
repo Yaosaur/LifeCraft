@@ -137,6 +137,7 @@ app.get('/api/v1/logout', (req, res, err) => {
 
 app.get('/api/v1/cart', async (req, res) => {
   let cart = undefined;
+  let grandTotal = undefined;
   if (res.locals.currentUser) {
     cart = await Cart.findById(
       res.locals.currentUser.cart._id.toString()
@@ -146,9 +147,11 @@ app.get('/api/v1/cart', async (req, res) => {
         path: 'product',
       },
     });
-    console.log(cart);
+    console.log(cart.products);
+    const totalPrice = cart.products.map(x => x.product.price * x.quantity);
+    grandTotal = totalPrice.reduce((prev, curr) => prev + curr, 0);
   }
-  res.render('cart', { cart });
+  res.render('cart', { cart, grandTotal });
 });
 
 app.post('/api/v1/cart', isLoggedIn, async (req, res) => {

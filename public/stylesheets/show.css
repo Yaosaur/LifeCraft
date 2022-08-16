@@ -107,12 +107,12 @@ select {
 #buyButton {
   background-color: #54bab9;
   color: #e9dac1;
-  margin-top: 15px;
 }
 
 #addCartButton {
   background-color: #9ed2c6;
   color: #f7ecde;
+  margin-top: 15px;
 }
 
 #shoppingButtons {

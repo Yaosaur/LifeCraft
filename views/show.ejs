@@ -42,12 +42,12 @@
           <% } %>
         </select>
         <input type="hidden" name="craftId" value="<%=craft._id%>" />
-        <button id="buyButton">Buy Now | <%=craft.stock%> in stock</button>
+        <button id="addCartButton">Add to Cart</button>
       </form>
     </div>
     <div id="shoppingButtons">
       <form action="/api/v1/cart" method="POST">
-        <button id="addCartButton">Add to Cart</button>
+        <button id="buyButton">Buy Now | <%=craft.stock%> in stock</button>
       </form>
     </div>
     <% } else {%>
