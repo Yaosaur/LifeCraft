@@ -4,7 +4,7 @@
   <% if (!currentUser) {%>
   <div>Please sign in to purchase.</div>
   <% } else {%>
-  <div>There are X items in your cart.</div>
+  <div>There are <%=cart.products.length%> item(s) in your cart.</div>
   <% } %>
 </div>
 <div id="main">

@@ -100,6 +100,7 @@ app.post('/register', async (req, res, next) => {
   let { email, username, password, seller } = req.body;
   seller === 'on' ? (seller = true) : (seller = false);
   const cart = new Cart();
+  await cart.save();
   const user = new User({ email, username, seller, cart });
   const registeredUser = await User.register(user, password);
   req.login(registeredUser, err => {
@@ -135,7 +136,23 @@ app.get('/api/v1/logout', (req, res, err) => {
 });
 
 app.get('/api/v1/cart', async (req, res) => {
-  res.render('cart');
+  let cart = undefined;
+  if (res.locals.currentUser) {
+    cart = await Cart.findById(res.locals.currentUser.cart._id.toString());
+  }
+  res.render('cart', { cart });
+});
+
+app.post('/api/v1/cart', isLoggedIn, async (req, res) => {
+  const cart = await Cart.findById(res.locals.currentUser.cart._id.toString());
+  const product = await Craft.findById(req.body.craftId);
+  const newProduct = {
+    product,
+    quantity: req.body.quantity,
+  };
+  cart.products.push(newProduct);
+  await cart.save();
+  res.redirect('/api/v1/cart');
 });
 
 app.get('/api/v1/seller/crafts', async (req, res) => {
