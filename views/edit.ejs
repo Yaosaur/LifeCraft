@@ -14,9 +14,14 @@
       <div class="editable">
         <label for="category-select">Category:</label>
         <select name="category" id="category-select">
-          <% for (let category of craftSchema.obj.category.enum) {%>
+          <% for (let category of craftSchema.obj.category.enum) {%> <%
+          if(category === craft.category) {%>
+          <option value="<%=category%>" selected="selected">
+            <%=category%>
+          </option>
+          <% }else{ %>
           <option value="<%=category%>"><%=category%></option>
-          <% } %>
+          <% } %> <% } %>
         </select>
       </div>
       <div class="editable">
