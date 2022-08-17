@@ -7,10 +7,10 @@
 }
 
 #img-review {
-  width: 50%;
+  width: 42%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-content: flex-start;
   font-family: 'Dosis', sans-serif;
   font-weight: 600;
@@ -22,7 +22,8 @@
   height: 450px;
   object-fit: cover;
   border-radius: 40px;
-  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
 }
 
 #reviews {
@@ -30,7 +31,7 @@
 }
 
 #details {
-  width: 40%;
+  width: 30%;
   font-family: 'Dosis', sans-serif;
   font-weight: 600;
   font-size: 20px;
@@ -58,6 +59,7 @@
   font-size: 40px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   column-gap: 20px;
   width: 100%;
 }
@@ -121,12 +123,43 @@ select {
   row-gap: 15px;
 }
 
+#reviews,
 #shipping,
 #description,
 #OOS {
-  width: 75%;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+#OOS {
+  width: 100%;
+}
+
+#shipping div,
+#description div {
+  margin-top: 10px;
+}
+
+#OOS {
+  color: red;
 }
 
 #sellerBtns button {
   margin-top: 10px;
+}
+
+.review,
+.shippingText,
+.descriptionText {
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.review {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.descriptionText {
+  width: 100%;
 }

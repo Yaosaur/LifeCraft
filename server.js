@@ -12,7 +12,7 @@ const { craftSchema, Craft } = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
 const User = require('./models/user');
 const Cart = require('./models/cart');
-const { isLoggedIn, checkReturnTo } = require('./middleware');
+const { isLoggedIn, isSeller, checkReturnTo } = require('./middleware');
 
 require('dotenv').config();
 const port = process.env.PORT || 3003;
@@ -56,11 +56,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/seed', async (req, res) => {
-  await Craft.deleteMany({});
-  await Craft.insertMany(craftsData);
-  res.send('done!');
-});
+//Seed route for development purposes only!
+// app.get('/seed', async (req, res) => {
+//   await Craft.deleteMany({});
+//   await Craft.insertMany(craftsData);
+//   res.send('done!');
+// });
 
 app.get('/api/v1/', async (req, res) => {
   res.render('home');
@@ -147,7 +148,6 @@ app.get('/api/v1/cart', async (req, res) => {
         path: 'product',
       },
     });
-    console.log(cart.products);
     const totalPrice = cart.products.map(x => x.product.price * x.quantity);
     grandTotal = totalPrice.reduce((prev, curr) => prev + curr, 0);
   }
@@ -166,7 +166,40 @@ app.post('/api/v1/cart', isLoggedIn, async (req, res) => {
   res.redirect('/api/v1/cart');
 });
 
-app.get('/api/v1/seller/crafts', async (req, res) => {
+app.get('/api/v1/crafts/new', (req, res) => {
+  res.render('new', { craftSchema });
+});
+
+app.post('/api/v1/crafts', isSeller, (req, res) => {
+  Craft.create(req.body, () => {
+    req.flash('success', 'Successfully listed a new Craft!');
+    res.redirect('/api/v1/crafts');
+  });
+});
+
+app.get('/api/v1/crafts/:id', async (req, res) => {
+  const craft = await Craft.findById(req.params.id);
+  res.render('show', { craft });
+});
+
+app.get('/api/v1/crafts/:id/edit', isSeller, async (req, res) => {
+  const craft = await Craft.findById(req.params.id);
+  res.render('edit', { craft, craftSchema });
+});
+
+app.put('/api/v1/crafts/:id/', isSeller, (req, res) => {
+  Craft.findByIdAndUpdate(req.params.id, req.body, () => {
+    res.redirect(`/api/v1/crafts/${req.params.id}`);
+  });
+});
+
+app.delete('/api/v1/crafts/:id/', isSeller, (req, res) => {
+  Craft.findByIdAndRemove(req.params.id, () => {
+    res.redirect('/api/v1/crafts/');
+  });
+});
+
+app.get('/api/v1/seller/crafts', isSeller, async (req, res) => {
   let crafts = undefined;
   const { title } = req.query;
   if (title) {
@@ -177,18 +210,7 @@ app.get('/api/v1/seller/crafts', async (req, res) => {
   res.render('sellerIndex', { crafts, craftSchema });
 });
 
-app.get('/api/v1/crafts/new', (req, res) => {
-  res.render('new', { craftSchema });
-});
-
-app.post('/api/v1/crafts', (req, res) => {
-  Craft.create(req.body, () => {
-    req.flash('success', 'Successfully listed a new Craft!');
-    res.redirect('/api/v1/crafts');
-  });
-});
-
-app.get('/api/v1/seller/crafts/filter', async (req, res) => {
+app.get('/api/v1/seller/crafts/filter', isSeller, async (req, res) => {
   const { category } = req.query;
   const { price } = req.query;
   if (category) {
@@ -205,28 +227,6 @@ app.get('/api/v1/seller/crafts/filter', async (req, res) => {
     }
     res.render('sellerIndex', { crafts, craftSchema });
   }
-});
-
-app.get('/api/v1/crafts/:id', async (req, res) => {
-  const craft = await Craft.findById(req.params.id);
-  res.render('show', { craft });
-});
-
-app.get('/api/v1/crafts/:id/edit', isLoggedIn, async (req, res) => {
-  const craft = await Craft.findById(req.params.id);
-  res.render('edit', { craft, craftSchema });
-});
-
-app.put('/api/v1/crafts/:id/', (req, res) => {
-  Craft.findByIdAndUpdate(req.params.id, req.body, () => {
-    res.redirect(`/api/v1/crafts/${req.params.id}`);
-  });
-});
-
-app.delete('/api/v1/crafts/:id/', (req, res) => {
-  Craft.findByIdAndRemove(req.params.id, () => {
-    res.redirect('/api/v1/crafts/');
-  });
 });
 
 app.listen(port, () => {

@@ -5,14 +5,8 @@
     <div>
       <img src="<%=craft.image%>" />
     </div>
-    <div id="reviews">
-      Reviews
-      <div>
-        <div>Title of Review</div>
-        <div>Review Description</div>
-        <div>Username on Date</div>
-      </div>
-    </div>
+    <div id="reviews">Reviews</div>
+    <div class="review">For all the awesome comments here eventually!</div>
   </div>
   <div id="details">
     <div id="productTitle">
@@ -54,12 +48,17 @@
     <div id="OOS">Out Of Stock!</div>
     <% } %>
     <div id="shipping">
-      <div>Shipping Fee</div>
-      <div>Shipping Arrival</div>
+      <div>
+        <span>Shipping Fee: </span><span class="shippingText">Free!</span>
+      </div>
+      <div>
+        <span>Shipping Arrival:</span
+        ><span class="shippingText"> 7-10 days</span>
+      </div>
     </div>
     <div id="description">
       <div>Description</div>
-      <%=craft.description%>
+      <div class="descriptionText"><%=craft.description%></div>
     </div>
   </div>
 </div>

@@ -63,7 +63,9 @@
       <div id="signOut"><a href="/api/v1/logout">Sign Out</a></div>
       <% } %>
       <a href="/api/v1/cart"><img src="/images/cart-icon.png" /></a>
+      <% if (currentUser && currentUser.seller === true) {%>
       <a href="/api/v1/seller/crafts"><img src="/images/shop-icon.png" /></a>
+      <% } %>
       <img src="/images/bell-icon.png" />
     </div>
   </div>
