@@ -98,7 +98,7 @@ textarea {
 
 #saveButton {
   position: relative;
-  left: 10%;
+  left: 20px;
   top: 10px;
   background-color: #54bab9;
   color: #e9dac1;
@@ -106,7 +106,7 @@ textarea {
 
 #backButton {
   position: absolute;
-  right: 15%;
+  right: 150px;
   top: 587px;
   background-color: #9ed2c6;
   color: #f7ecde;
