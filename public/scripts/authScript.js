@@ -4,6 +4,7 @@ const logIn = document.querySelector('#logIn');
 const register = document.querySelector('#register');
 const closeBtns = document.querySelectorAll('.close');
 const registerBtn = document.querySelector('#registerBtn');
+const backLogInBtn = document.querySelector('#backLogInBtn');
 
 const showDisplay = element => {
   element.style.display = 'flex';
@@ -37,4 +38,8 @@ closeBtns.forEach(element => {
 registerBtn.addEventListener('click', () => {
   removeDisplay(logIn);
   showDisplay(register);
+});
+backLogInBtn.addEventListener('click', () => {
+  removeDisplay(register);
+  showDisplay(logIn);
 });

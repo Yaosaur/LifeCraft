@@ -3,6 +3,8 @@ const app = express();
 const ejsMate = require('ejs-mate');
 const path = require('path');
 const session = require('express-session');
+const Redis = require('ioredis');
+const RedisStore = require('connect-redis')(session);
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -17,6 +19,14 @@ const { isLoggedIn, isSeller, checkReturnTo } = require('./middleware');
 require('dotenv').config();
 const port = process.env.PORT || 3003;
 
+const redisClient = new Redis({
+  host: process.env.REDIS_HOSTNAME,
+  port: process.env.REDIS_PORT,
+  username: 'default',
+  password: process.env.REDIS_PASSWORD,
+});
+redisClient.on('connect', () => console.log('connected to redis'));
+
 mongoose.connect(process.env.MONGO_URI, {});
 mongoose.connection.once('open', () => {
   console.log('connected to mongo');
@@ -25,8 +35,8 @@ mongoose.connection.once('open', () => {
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
 const sessionOptions = {
+  store: new RedisStore({ client: redisClient }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
@@ -40,6 +50,7 @@ app.use(session(sessionOptions));
 
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(flash());
 
@@ -154,15 +165,37 @@ app.get('/api/v1/cart', async (req, res) => {
   res.render('cart', { cart, grandTotal });
 });
 
-app.post('/api/v1/cart', isLoggedIn, async (req, res) => {
-  const cart = await Cart.findById(res.locals.currentUser.cart._id.toString());
+app.put('/api/v1/cart', isLoggedIn, async (req, res) => {
   const product = await Craft.findById(req.body.craftId);
-  const newProduct = {
-    product,
-    quantity: req.body.quantity,
-  };
-  cart.products.push(newProduct);
+  const cart = await Cart.findById(res.locals.currentUser.cart._id.toString());
+  const foundItem = cart.products.find(
+    listing => listing.product.toString() === product._id.toString()
+  );
+  if (foundItem === undefined) {
+    cart.products.push({ product: product._id, quantity: req.body.quantity });
+  } else {
+    foundItem.quantity = req.body.quantity;
+  }
   await cart.save();
+  return res.redirect('/api/v1/cart');
+});
+
+app.delete('/api/v1/cart/checkout', isLoggedIn, async (req, res) => {
+  const cart = await Cart.findByIdAndUpdate(
+    res.locals.currentUser.cart._id.toString(),
+    { products: [] }
+  );
+  cart.products.forEach(async product => {
+    await Craft.findByIdAndUpdate(product.product, {
+      $inc: { stock: -product.quantity },
+    });
+  });
+});
+
+app.delete('/api/v1/cart/:itemId', isLoggedIn, async (req, res) => {
+  await Cart.findByIdAndUpdate(res.locals.currentUser.cart._id.toString(), {
+    $pull: { products: { _id: req.params.itemId } },
+  });
   res.redirect('/api/v1/cart');
 });
 

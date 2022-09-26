@@ -26,23 +26,21 @@
     </div>
     <div class="price">$ <%=craft.price.toFixed(2)%></div>
     <% if (craft.stock > 0) {%>
-    <div id="qtySelect">
-      <form action="/api/v1/cart" method="POST">
-        <label for="quantity">Quantity</label>
-        <br />
-        <select name="quantity" id="quantity">
-          <% for (let i = 1; i <= craft.stock ; i ++) {%>
-          <option value="<%=i%>"><%=i%></option>
-          <% } %>
-        </select>
-        <input type="hidden" name="craftId" value="<%=craft._id%>" />
-        <button id="addCartButton">Add to Cart</button>
-      </form>
-    </div>
     <div id="shoppingButtons">
-      <form action="/api/v1/cart" method="POST">
-        <button id="buyButton">Buy Now | <%=craft.stock%> in stock</button>
-      </form>
+      <div id="qtySelect">
+        <form action="/api/v1/cart/?_method=PUT" method="POST">
+          <label for="quantity">Quantity</label>
+          <br />
+          <select name="quantity" id="quantity">
+            <% for (let i = 1; i <= craft.stock ; i ++) {%>
+            <option value="<%=i%>"><%=i%></option>
+            <% } %>
+          </select>
+          <input type="hidden" name="craftId" value="<%=craft._id%>" />
+          <button id="addCartButton">Add to Cart</button>
+        </form>
+      </div>
+      <button id="buyButton">Buy Now | <%=craft.stock%> in stock</button>
     </div>
     <% } else {%>
     <div id="OOS">Out Of Stock!</div>

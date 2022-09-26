@@ -43,6 +43,19 @@
     </div>
     <button>Login</button>
   </form>
+  <form action="/login" method="POST">
+    <input type="text" name="username" id="username" value="demoUser" hidden />
+    <input
+      type="password"
+      name="password"
+      id="password"
+      value="demoUser"
+      hidden
+    />
+    <div class="divBtn" style="margin-top: 0px">
+      <button>Demo Log In</button>
+    </div>
+  </form>
   <div class="divBtn"><button id="registerBtn">Register</button></div>
 </div>
 <nav id="navibar">
@@ -54,7 +67,7 @@
         name="title"
         placeholder="Discover life's inspirations..."
       />
-      <button><img src="/images/search-icon.png" /></button>
+      <button><span class="material-symbols-outlined"> search </span></button>
     </form>
     <div id="navicons">
       <% if (!currentUser) {%>
@@ -62,11 +75,16 @@
       <% } else{%>
       <div id="signOut"><a href="/api/v1/logout">Sign Out</a></div>
       <% } %>
-      <a href="/api/v1/cart"><img src="/images/cart-icon.png" /></a>
+      <a href="/api/v1/cart"
+        ><span class="material-symbols-outlined"> shopping_cart </span></a
+      >
       <% if (currentUser && currentUser.seller === true) {%>
-      <a href="/api/v1/seller/crafts"><img src="/images/shop-icon.png" /></a>
+      <a href="/api/v1/seller/crafts"
+        ><span class="material-symbols-outlined"> storefront </span></a
+      >
       <% } %>
-      <img src="/images/bell-icon.png" />
+      <i class="fa-regular fa-bell fa-2xl"></i>
+      <i class="fa-regular fa-cart-shopping"></i>
     </div>
   </div>
   <div id="naviBottom">

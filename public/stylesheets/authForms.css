@@ -13,7 +13,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
-  font-family: 'Dosis', sans-serif;
+  font-family: 'Source Serif 4', serif;
   font-weight: 700;
   background-color: white;
   color: black;
@@ -62,11 +62,12 @@
 #register form button,
 #logIn form button,
 #registerBtn,
-#backLogInBtn {
+#backLogInBtn,
+.divBtn button {
   font-size: 20px;
-  font-family: 'Dosis', sans-serif;
+  font-family: 'Source Serif 4', serif;
   font-weight: 700;
-  width: 100px;
+  width: 250px;
   height: 40px;
   border-radius: 50px;
   transition: 300ms;
