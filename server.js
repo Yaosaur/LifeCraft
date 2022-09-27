@@ -10,11 +10,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const flash = require('connect-flash');
-const { craftSchema, Craft } = require('./models/craft');
 const craftsData = require('./utilities/craftsData');
 const User = require('./models/user');
-const Cart = require('./models/cart');
-const { isLoggedIn, isSeller, checkReturnTo } = require('./middleware');
+const { checkReturnTo } = require('./middleware');
 
 require('dotenv').config();
 const port = process.env.PORT || 3003;
@@ -67,6 +65,13 @@ app.use((req, res, next) => {
   next();
 });
 
+const craftsController = require('./controllers/crafts.js');
+const sellerCraftsController = require('./controllers/sellerCrafts.js');
+const cartController = require('./controllers/cart.js');
+app.use('/api/v1/crafts', craftsController);
+app.use('/api/v1/seller/crafts', sellerCraftsController);
+app.use('/api/v1/cart', cartController);
+
 //Seed route for development purposes only!
 // app.get('/seed', async (req, res) => {
 //   await Craft.deleteMany({});
@@ -76,36 +81,6 @@ app.use((req, res, next) => {
 
 app.get('/api/v1/', async (req, res) => {
   res.render('home');
-});
-
-app.get('/api/v1/crafts', async (req, res) => {
-  let crafts = undefined;
-  const { title } = req.query;
-  if (title) {
-    crafts = await Craft.find({ title: new RegExp(`${title}`, 'i') });
-  } else {
-    crafts = await Craft.find({});
-  }
-  res.render('index', { crafts, craftSchema, title });
-});
-
-app.get('/api/v1/crafts/filter', async (req, res) => {
-  const { category } = req.query;
-  const { price } = req.query;
-  if (category) {
-    let crafts = await Craft.find({ category: category });
-    res.render('index', { crafts, craftSchema, title: undefined });
-  } else if (price) {
-    let crafts = undefined;
-    if (price === 'lt5') {
-      crafts = await Craft.find({ price: { $lt: 5 } });
-    } else if (price === 'gt50') {
-      crafts = await Craft.find({ price: { $gt: 50 } });
-    } else {
-      crafts = await Craft.find({ price: { $gte: 5, $lte: 50 } });
-    }
-    res.render('index', { crafts, craftSchema, title: undefined });
-  }
 });
 
 app.post('/register', async (req, res, next) => {
@@ -145,121 +120,6 @@ app.get('/api/v1/logout', (req, res, err) => {
       res.redirect('/api/v1/');
     }
   });
-});
-
-app.get('/api/v1/cart', async (req, res) => {
-  let cart = undefined;
-  let grandTotal = undefined;
-  if (res.locals.currentUser) {
-    cart = await Cart.findById(
-      res.locals.currentUser.cart._id.toString()
-    ).populate({
-      path: 'products',
-      populate: {
-        path: 'product',
-      },
-    });
-    const totalPrice = cart.products.map(x => x.product.price * x.quantity);
-    grandTotal = totalPrice.reduce((prev, curr) => prev + curr, 0);
-  }
-  res.render('cart', { cart, grandTotal });
-});
-
-app.put('/api/v1/cart', isLoggedIn, async (req, res) => {
-  const product = await Craft.findById(req.body.craftId);
-  const cart = await Cart.findById(res.locals.currentUser.cart._id.toString());
-  const foundItem = cart.products.find(
-    listing => listing.product.toString() === product._id.toString()
-  );
-  if (foundItem === undefined) {
-    cart.products.push({ product: product._id, quantity: req.body.quantity });
-  } else {
-    foundItem.quantity = req.body.quantity;
-  }
-  await cart.save();
-  return res.redirect('/api/v1/cart');
-});
-
-app.delete('/api/v1/cart/checkout', isLoggedIn, async (req, res) => {
-  const cart = await Cart.findByIdAndUpdate(
-    res.locals.currentUser.cart._id.toString(),
-    { products: [] }
-  );
-  cart.products.forEach(async product => {
-    await Craft.findByIdAndUpdate(product.product, {
-      $inc: { stock: -product.quantity },
-    });
-  });
-});
-
-app.delete('/api/v1/cart/:itemId', isLoggedIn, async (req, res) => {
-  await Cart.findByIdAndUpdate(res.locals.currentUser.cart._id.toString(), {
-    $pull: { products: { _id: req.params.itemId } },
-  });
-  res.redirect('/api/v1/cart');
-});
-
-app.get('/api/v1/crafts/new', (req, res) => {
-  res.render('new', { craftSchema });
-});
-
-app.post('/api/v1/crafts', isSeller, (req, res) => {
-  Craft.create(req.body, () => {
-    req.flash('success', 'Successfully listed a new Craft!');
-    res.redirect('/api/v1/crafts');
-  });
-});
-
-app.get('/api/v1/crafts/:id', async (req, res) => {
-  const craft = await Craft.findById(req.params.id);
-  res.render('show', { craft });
-});
-
-app.get('/api/v1/crafts/:id/edit', isSeller, async (req, res) => {
-  const craft = await Craft.findById(req.params.id);
-  res.render('edit', { craft, craftSchema });
-});
-
-app.put('/api/v1/crafts/:id/', isSeller, (req, res) => {
-  Craft.findByIdAndUpdate(req.params.id, req.body, () => {
-    res.redirect(`/api/v1/crafts/${req.params.id}`);
-  });
-});
-
-app.delete('/api/v1/crafts/:id/', isSeller, (req, res) => {
-  Craft.findByIdAndRemove(req.params.id, () => {
-    res.redirect('/api/v1/crafts/');
-  });
-});
-
-app.get('/api/v1/seller/crafts', isSeller, async (req, res) => {
-  let crafts = undefined;
-  const { title } = req.query;
-  if (title) {
-    crafts = await Craft.find({ title: new RegExp(`${title}`, 'i') });
-  } else {
-    crafts = await Craft.find({});
-  }
-  res.render('sellerIndex', { crafts, craftSchema });
-});
-
-app.get('/api/v1/seller/crafts/filter', isSeller, async (req, res) => {
-  const { category } = req.query;
-  const { price } = req.query;
-  if (category) {
-    let crafts = await Craft.find({ category: category });
-    res.render('sellerIndex', { crafts, craftSchema });
-  } else if (price) {
-    let crafts = undefined;
-    if (price === 'lt5') {
-      crafts = await Craft.find({ price: { $lt: 5 } });
-    } else if (price === 'gt50') {
-      crafts = await Craft.find({ price: { $gt: 50 } });
-    } else {
-      crafts = await Craft.find({ price: { $gte: 5, $lte: 50 } });
-    }
-    res.render('sellerIndex', { crafts, craftSchema });
-  }
 });
 
 app.listen(port, () => {

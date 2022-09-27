@@ -12,11 +12,11 @@
     <div id="productTitle">
       <%=craft.title %> <% if (currentUser && currentUser.seller === true){ %>
       <div id="sellerBtns">
-        <form action="/api/v1/crafts/<%=craft._id%>/edit" method="GET">
+        <form action="/api/v1/seller/crafts/<%=craft._id%>/edit" method="GET">
           <button>Edit Craft</button>
         </form>
         <form
-          action="/api/v1/crafts/<%=craft._id%>/?_method=DELETE"
+          action="/api/v1/seller/crafts/<%=craft._id%>/?_method=DELETE"
           method="POST"
         >
           <button>Delist Craft</button>
