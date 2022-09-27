@@ -12,7 +12,10 @@ const LocalStrategy = require('passport-local');
 const flash = require('connect-flash');
 const craftsData = require('./utilities/craftsData');
 const User = require('./models/user');
-const { checkReturnTo } = require('./middleware');
+const Cart = require('./models/cart');
+const { checkReturnTo } = require('./utilities/authMiddleware');
+const catchAsync = require('./utilities/catchAsync');
+const ExpressError = require('./utilities/ExpressError');
 
 require('dotenv').config();
 const port = process.env.PORT || 3003;
@@ -62,6 +65,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
   next();
 });
 
@@ -83,27 +87,36 @@ app.get('/api/v1/', async (req, res) => {
   res.render('home');
 });
 
-app.post('/register', async (req, res, next) => {
-  let { email, username, password, seller } = req.body;
-  seller === 'on' ? (seller = true) : (seller = false);
-  const cart = new Cart();
-  await cart.save();
-  const user = new User({ email, username, seller, cart });
-  const registeredUser = await User.register(user, password);
-  req.login(registeredUser, err => {
-    if (err) {
-      return next(err);
-    } else {
-      res.redirect('/api/v1/');
+app.post(
+  '/register',
+  catchAsync(async (req, res, next) => {
+    let { email, username, password, seller } = req.body;
+    const existingUser = await User.find({ email });
+    if (existingUser) {
+      req.flash('error', 'An account exists with that email!');
+      return res.redirect('/api/v1/');
     }
-  });
-});
+    seller === 'on' ? (seller = true) : (seller = false);
+    const cart = new Cart();
+    await cart.save();
+    const user = new User({ email, username, seller, cart });
+    const registeredUser = await User.register(user, password);
+    req.login(registeredUser, err => {
+      if (err) {
+        return next(err);
+      } else {
+        res.redirect('/api/v1/');
+      }
+    });
+  })
+);
 
 app.post(
   '/login',
   checkReturnTo,
   passport.authenticate('local', {
     failureFlash: true,
+    failureFlash: 'Invalid credentials!',
     failureRedirect: '/api/v1/',
   }),
   async (req, res) => {
@@ -122,8 +135,13 @@ app.get('/api/v1/logout', (req, res, err) => {
   });
 });
 
-app.get('/*', (req, res, err) => {
-  res.render('notFound');
+app.get('*', (req, res, next) => {
+  next(new ExpressError('Page not found', 404));
+});
+
+app.use((err, req, res, next) => {
+  const { message = 'Something went wrong!', statusCode = 500 } = err;
+  res.render('error', { message, statusCode });
 });
 
 app.listen(port, () => {

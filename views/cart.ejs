@@ -18,6 +18,7 @@
   <% } %>
 </div>
 
+<% if (currentUser) {%>
 <div id="main">
   <div id="cartItems">
     <% if (cart.products.length > 0){%> <% for (let item of cart.products) {%>
@@ -50,6 +51,7 @@
         <span>($<%=item.product.price.toFixed(2)%> each)</span>
       </div>
     </div>
+    <%}%>
   </div>
   <div id="checkOut">
     <span>How Will You Pay?</span>
@@ -79,4 +81,4 @@
     </form>
   </div>
 </div>
-<% }} %>
+<% } %> <% } %>
