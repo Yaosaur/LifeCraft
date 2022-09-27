@@ -91,8 +91,9 @@ app.post(
   '/register',
   catchAsync(async (req, res, next) => {
     let { email, username, password, seller } = req.body;
+    email = email.toLowerCase().trim();
     const existingUser = await User.find({ email });
-    if (existingUser) {
+    if (existingUser.length > 0) {
       req.flash('error', 'An account exists with that email!');
       return res.redirect('/api/v1/');
     }

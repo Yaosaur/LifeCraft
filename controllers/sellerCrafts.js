@@ -54,6 +54,10 @@ router.get(
   })
 );
 
+router.get('/new', isSeller, (req, res) => {
+  res.render('new', { craftSchema });
+});
+
 router.post('/', isSeller, validateCraft, (req, res, next) => {
   Craft.create(req.body, err => {
     if (err) {
@@ -89,10 +93,6 @@ router.delete('/:id', isSeller, (req, res, next) => {
     }
     res.redirect('/api/v1/crafts/');
   });
-});
-
-router.get('/new', isSeller, (req, res) => {
-  res.render('new', { craftSchema });
 });
 
 module.exports = router;
