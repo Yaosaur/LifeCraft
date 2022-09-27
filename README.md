@@ -8,6 +8,8 @@ LifeCraft is a e-commerce website, inspired by Etsy, for listing and buying hand
 
 Click [here](https://youtu.be/l-zkWm3gVuI) to see a video of all the features of this project and some code snippets.
 
+Click [here](https://life-craft.herokuapp.com/api/v1) to visit the live site.
+
 ## Features
 
 Users will be able to:

@@ -16,7 +16,7 @@ purchaseBtn &&
   purchaseBtn.addEventListener('click', event => {
     showDisplay(overlay);
     showDisplay(confirmation);
-    axios.delete('http://localhost:3000/api/v1/cart/checkout');
+    axios.delete('https://life-craft.herokuapp.com/api/v1/cart/checkout');
   });
 
 closeConfirmation.addEventListener('click', event => {
