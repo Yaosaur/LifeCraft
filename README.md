@@ -53,10 +53,6 @@ The following routes require the user to be logged in
 | DELETE | /api/v1/cart/:itemId  | Removes the specified craft from cart                                   |
 | DELETE | /api/v1/cart/checkout | Empties the cart and updates stock of each individual craft in the cart |
 
-| GET | /api/v1/crafts/new | Form to add additional craft |
-| POST | /api/v1/crafts | Adds additional craft to database |
-| GET | /api/v1/crafts/:id | Show page for individual craft |
-
 The following routes are protected (need authorization as a seller account)
 
 | VERB   | PATH                           | DESCRIPTION                                                         |
