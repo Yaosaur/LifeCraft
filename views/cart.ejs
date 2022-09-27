@@ -2,15 +2,25 @@
 <link rel="stylesheet" href="/stylesheets/cart.css" />
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script defer src="/scripts/cartScript.js"></script>
+<div id="confirmation">
+  <div id="closeConfirmation">&#x2715;</div>
+  <div id="confirmationThanks">Thank you for your purchase!</div>
+  <div id="confirmationText">
+    You will receive an email confirmation shortly.
+  </div>
+  <a href="/api/v1/" id="confirmCloseBtn">Continue Shopping</a>
+</div>
 <div id="totalItems">
   <% if (!currentUser) {%>
   <div>Please sign in to purchase.</div>
   <% } else {%>
   <div>There are <%=cart.products.length%> item(s) in your cart.</div>
+  <% } %>
 </div>
+
 <div id="main">
   <div id="cartItems">
-    <% if (cart.products.length > 0){%> <% for (item of cart.products) {%>
+    <% if (cart.products.length > 0){%> <% for (let item of cart.products) {%>
     <div class="item">
       <div class="card">
         <div class="title"><%=item.product.title%></div>
@@ -40,7 +50,6 @@
         <span>($<%=item.product.price.toFixed(2)%> each)</span>
       </div>
     </div>
-    <% } %> <% } %>
   </div>
   <div id="checkOut">
     <span>How Will You Pay?</span>
@@ -69,5 +78,5 @@
       <button id="purchaseBtn" type="button">Purchase!</button>
     </form>
   </div>
-  <% } %>
 </div>
+<% }} %>
