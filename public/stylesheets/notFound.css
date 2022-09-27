@@ -1,0 +1,22 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 30px;
+  font-family: 'Source Serif 4', serif;
+}
+
+.bigText {
+  font-weight: 600;
+  font-size: 30px;
+  margin-top: 30px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+#container img {
+  width: 30vw;
+  height: auto;
+}

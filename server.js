@@ -122,6 +122,10 @@ app.get('/api/v1/logout', (req, res, err) => {
   });
 });
 
+app.get('/*', (req, res, err) => {
+  res.render('notFound');
+});
+
 app.listen(port, () => {
   console.log('I am listening on port', port);
 });
